@@ -28,3 +28,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.bg-main-1 {
+  background-color: var(--main-color-1);
+}
+
+.bg-main-2 {
+  background-color: var(--main-color-2);
+}
