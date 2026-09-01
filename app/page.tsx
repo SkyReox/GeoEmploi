@@ -24,9 +24,12 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="w-full bg-[#f3f2f0] pbs-24 pbe-24 flex items-center justify-between gap-[1rem] p-20">
-                    <h2 className="text-black text-[30px]">
-                        Attrapez des offres d'emploi idéales!
-                    </h2>
+                    <div className="w-[50%]">
+                        <h2 className="text-[#b24020] text-[30px] font-semibold">
+                            Attrapez des offres d'emploi idéales!
+                        </h2>
+                        <p className="text-black text-[22px] text-justify">Avec la fonctionnalité de <span className="italic">Carte Interactive</span>, vous pouvez retrouver facilement des offres d'emploi autour de vous ou dans une commune précise!</p>
+                    </div>
                     <div className="flex justify-center">
                         <Image
                             className="w-[40%]"
