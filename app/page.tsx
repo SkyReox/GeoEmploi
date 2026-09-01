@@ -33,8 +33,8 @@ export default function Home() {
                     <div className="flex justify-center">
                         <Image
                             className="w-[40%]"
-                            src="/arturo.png"
-                            alt="Arturo"
+                            src="/fuentes.png"
+                            alt="Fuentes"
                             width={926}
                             height={926}
                             priority

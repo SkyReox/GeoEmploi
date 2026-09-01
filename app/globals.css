@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --main-color-1: #007ebb;
+  --main-color-1: #1B3A6B;
   --main-color-2: #fff;
 }
 
@@ -35,4 +35,28 @@ body {
 
 .bg-main-2 {
   background-color: var(--main-color-2);
+}
+
+h1 {
+  font-family: "Marianne", arial, sans-serif;
+}
+
+h2 {
+  font-family: "Marianne", arial, sans-serif;
+}
+
+h3 {
+  font-family: "Marianne", arial, sans-serif;
+}
+
+h4 {
+  font-family: "Marianne", arial, sans-serif;
+}
+
+h5 {
+  font-family: "Marianne", arial, sans-serif;
+}
+
+h6 {
+  font-family: "Marianne", arial, sans-serif;
 }
