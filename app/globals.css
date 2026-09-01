@@ -36,9 +36,3 @@ body {
 .bg-main-2 {
   background-color: var(--main-color-2);
 }
-
-.horizontal-ol {
-  display: flex;
-  gap: 20px;
-  padding: 0;
-}
