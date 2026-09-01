@@ -18,7 +18,7 @@ export default function FooterComponent() {
                     <h3 className="font-sans text-md font-bold text-color-text leading-regular mb-1 babybear:max-w-full babybear:my-1">Général</h3>
                     <ul>
                         <li>
-                            <a href="/test">S'inscrire</a>
+                            <a href="/signup">S'inscrire</a>
                         </li>
                         <li>
                             <a href="/prout">Assistance clientèle</a>
