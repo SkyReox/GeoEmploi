@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   } else if (session.user.role === "GIVER") {
     where.giverId = session.user.id;
   }
-  
+
   if (location) {
     where.location = { contains: location, mode: "insensitive" };
   }
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     data: {
       ...result.data,
       giverId: session.user.id,
-      status: "PENDING",
+      status: "APPROVED",
     },
   });
 
