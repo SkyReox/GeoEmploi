@@ -23,10 +23,20 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full bg-[#f3f2f0] pbs-8 pbe-8">
+                <div className="w-full bg-[#f3f2f0] pbs-24 pbe-24 flex items-center justify-between gap-[1rem] p-20">
                     <h2 className="text-black text-[30px]">
                         Attrapez des offres d'emploi idéales!
                     </h2>
+                    <div className="flex justify-center">
+                        <Image
+                            className="w-[40%]"
+                            src="/arturo.png"
+                            alt="Arturo"
+                            width={926}
+                            height={926}
+                            priority
+                        />
+                    </div>
                 </div>
             </main>
         </div>
