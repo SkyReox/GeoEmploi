@@ -14,13 +14,13 @@ export default function HeaderComponent() {
                 />
             </div>
             <div className="flex-1 pr-2 items-center flex justify-end">
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="map">Carte Interactive</a> {/* TODO: Change href when Sign in is done */}
+            </div>
+            <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
                 <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Se connecter</a> {/* TODO: Change href when Sign up is done */}
             </div>
             <div className="ps-lg gap-xs items-center flex justify-end">
                 <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
-            </div>
-            <div className="ps-lg gap-xl items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="map">Carte Interactive</a> {/* TODO: Change href when Sign in is done */}
             </div>
         </nav>
     </header>);
