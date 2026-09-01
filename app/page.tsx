@@ -1,4 +1,5 @@
-import Sidebar from "./components/Sidebar";
+import Sidebar from "@/components/Sidebar";
+import Map from "./components/Map/";
 
 export default function Home() {
   return (
@@ -6,6 +7,7 @@ export default function Home() {
       <main className="flex flex-1 w-full flex-col items-center justify-between py-32 px-16 bg-white bg-main-2 sm:items-start">
         <h1 className="text-black text-[50px]">
           Bienvenue sur <span className="font-semibold">GéoEmploi</span>!
+          <Map />
         </h1>
       </main>
     </div>
