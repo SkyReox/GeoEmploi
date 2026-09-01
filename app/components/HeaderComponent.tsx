@@ -7,8 +7,8 @@ export default function HeaderComponent() {
                 <a href="/">
                     <Image
                         className="w-8"
-                        src="/icon.png"
-                        alt="GeoEmploi Icon"
+                        src="/jeb.png"
+                        alt="Jeb Icon"
                         width={100}
                         height={100}
                         priority
