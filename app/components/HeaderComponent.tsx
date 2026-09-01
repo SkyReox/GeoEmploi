@@ -10,15 +10,14 @@ export default function HeaderComponent() {
                     alt="GeoEmploi Icon"
                     width={100}
                     height={100}
-                    objectFit="contain"
                     priority
                 />
             </div>
             <div className="flex-1 pr-2 items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Sign up</a>
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Se connecter</a> {/* TODO: Change href when Sign up is done */}
             </div>
             <div className="ps-lg gap-xs items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Sign in</a>
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
             </div>
         </nav>
     </header>);
