@@ -16,7 +16,7 @@ export default function HeaderComponent() {
                 </a>
             </div>
             <div className="flex-1 pr-2 items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="map">Carte Interactive</a> {/* TODO: Change href when Sign in is done */}
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="map">Carte Interactive</a>
             </div>
             <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
                 <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Se connecter</a> {/* TODO: Change href when Sign up is done */}
