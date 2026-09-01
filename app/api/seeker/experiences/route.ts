@@ -1,64 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { withAuth } from "@/lib/api-helpers";
 import { prisma } from "@/lib/prisma";
-import { UpdateExperienceSchema } from "@/lib/validations/seeker.schema";
+import { CreateExperienceSchema } from "@/lib/validations/seeker.schema";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  const session = await auth();
-  if (!session || session.user.role !== "SEEKER") {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
-  }
-
-  const experience = await prisma.experience.findUnique({
-    where: { id },
-    include: { profile: true },
-  });
-  if (!experience) {
-    return NextResponse.json({ error: "Expérience introuvable" }, { status: 404 });
-  }
-  if (experience.profile.userId !== session.user.id) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
-  }
-
+export const POST = withAuth(["SEEKER"], async (request, _context, session) => {
   const body = await request.json();
-  const result = UpdateExperienceSchema.safeParse(body);
+  const result = CreateExperienceSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 });
   }
 
-  const updated = await prisma.experience.update({
-    where: { id },
-    data: result.data,
+  const profile = await prisma.seekerProfile.findUniqueOrThrow({
+    where: { userId: session.user.id },
   });
 
-  return NextResponse.json(updated);
-}
-
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  const session = await auth();
-  if (!session || session.user.role !== "SEEKER") {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
-  }
-
-  const experience = await prisma.experience.findUnique({
-    where: { id },
-    include: { profile: true },
+  const experience = await prisma.experience.create({
+    data: { ...result.data, profileId: profile.id },
   });
-  if (!experience) {
-    return NextResponse.json({ error: "Expérience introuvable" }, { status: 404 });
-  }
-  if (experience.profile.userId !== session.user.id) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
-  }
 
-  await prisma.experience.delete({ where: { id } });
-  return new NextResponse(null, { status: 204 });
-}
+  return NextResponse.json(experience, { status: 201 });
+});

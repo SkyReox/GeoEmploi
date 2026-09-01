@@ -1,22 +1,64 @@
-import { NextResponse } from "next/server";
-import { withAuth } from "@/lib/api-helpers";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { CreateExperienceSchema } from "@/lib/validations/seeker.schema";
+import { UpdateExperienceSchema } from "@/lib/validations/seeker.schema";
 
-export const POST = withAuth(["SEEKER"], async (request, _context, session) => {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const session = await auth();
+  if (!session || session.user.role !== "SEEKER") {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+  }
+
+  const experience = await prisma.experience.findUnique({
+    where: { id },
+    include: { profile: true },
+  });
+  if (!experience) {
+    return NextResponse.json({ error: "Expérience introuvable" }, { status: 404 });
+  }
+  if (experience.profile.userId !== session.user.id) {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+  }
+
   const body = await request.json();
-  const result = CreateExperienceSchema.safeParse(body);
+  const result = UpdateExperienceSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 });
   }
 
-  const profile = await prisma.seekerProfile.findUniqueOrThrow({
-    where: { userId: session.user.id },
+  const updated = await prisma.experience.update({
+    where: { id },
+    data: result.data,
   });
 
-  const experience = await prisma.experience.create({
-    data: { ...result.data, profileId: profile.id },
-  });
+  return NextResponse.json(updated);
+}
 
-  return NextResponse.json(experience, { status: 201 });
-});
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const session = await auth();
+  if (!session || session.user.role !== "SEEKER") {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+  }
+
+  const experience = await prisma.experience.findUnique({
+    where: { id },
+    include: { profile: true },
+  });
+  if (!experience) {
+    return NextResponse.json({ error: "Expérience introuvable" }, { status: 404 });
+  }
+  if (experience.profile.userId !== session.user.id) {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+  }
+
+  await prisma.experience.delete({ where: { id } });
+  return new NextResponse(null, { status: 204 });
+}
