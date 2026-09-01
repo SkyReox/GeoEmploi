@@ -26,7 +26,7 @@ export default function FooterComponent() {
                     </ul>
                 </div>
                 <div className="w-full max-w-[240px] mr-3">
-                    <h3 className="font-sans text-md font-bold text-color-text leading-regular mb-1 babybear:max-w-full babybear:my-1">Parcourir ChomageGo</h3>
+                    <h3 className="font-sans text-md font-bold text-color-text leading-regular mb-1 babybear:max-w-full babybear:my-1">Parcourir GéoEmploi</h3>
                     <ul>
                         <li>
                             <a href="/map">Carte interactive</a>
