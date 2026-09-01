@@ -74,9 +74,9 @@ export default function Home() {
               <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
                 Statut <span className="text-red-500">*</span>
               </label>
-              <select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-country">
+              <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-country">
                 <option>Chercheur</option>
-                <option>Demandeur</option>
+                <option>Recruteur</option>
               </select>
             </div>
           </div>
@@ -92,7 +92,12 @@ export default function Home() {
           </div>
         <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full px-3">
-              <p className="text-gray-700 text-xs italic">En vous inscrivant, vous acceptez nos <a href="/terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.</p>
+              <p className="text-gray-700 text-xs italic">En vous inscrivant, vous acceptez nos <a href="/terms" className="text-blue-700 hover:text-blue-900">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-700 hover:text-blue-900">politique de confidentialité</a>.</p>
+            </div>
+          </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+              <p className="text-gray-700 text-xs italic">Vous avez déjà un compte ? <a href="/login" className="text-blue-700 hover:text-blue-900">Connectez-vous ici</a>.</p>
             </div>
           </div>
         </form>
