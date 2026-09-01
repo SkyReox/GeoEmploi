@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
-            <main className="flex flex-1 w-full flex-col items-center justify-between py-32 px-16 bg-white bg-main-2 sm:items-start">
+            <main className="flex flex-1 w-full flex-col items-center justify-start py-32 px-16 bg-white bg-main-2 sm:items-start">
                 <div className="w-full">
                     <div className="float-left inline-block">
                         <h1 className="text-black text-[50px]">
@@ -22,6 +22,11 @@ export default function Home() {
                             />
                         </div>
                     </div>
+                </div>
+                <div className="w-full bg-[#f3f2f0] pbs-8 pbe-8">
+                    <h2 className="text-black text-[30px]">
+                        Attrapez des offres d'emploi idéales!
+                    </h2>
                 </div>
             </main>
         </div>
