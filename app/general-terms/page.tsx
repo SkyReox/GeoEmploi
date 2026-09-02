@@ -1,5 +1,9 @@
 import "./general-terms.css";
 
+export const metadata = {
+    title: "Conditions Générales d'Utilisation"
+}
+
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
