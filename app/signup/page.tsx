@@ -167,7 +167,7 @@ export default function SignupPage() {
           <div className="w-full px-3">
             <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
             <input id="conditions" onChange={handleChange} checked={formData.conditions} type="checkbox" className="mr-2 leading-tight" />
-              Cliquez ici pour accepter nos <a href="/terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.
+              Cliquez ici pour accepter nos <a href="/general-terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.
             </label>
           </div>
         </div>
