@@ -3,14 +3,14 @@ import Image from "next/image";
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
-            <main className="flex flex-1 w-full flex-col items-center justify-start my-8 bg-main-2 sm:items-start">
+            <main className="flex flex-1 w-full flex-col items-center justify-start bg-main-2 my-8 sm:items-start">
                 <div className="w-full flex items-center justify-between gap-[1rem]">
-                    <div className="w-[50%]">
-                        <h1 className="text-black text-[50px] p-20">
+                    <div className="flex flex-1 justify-center items-center w-[50%] min-w-[320px]">
+                        <h1 className="text-black text-[36px] text-center">
                             Bienvenue sur <span className="font-semibold">GéoEmploi</span>!
                         </h1>
                     </div>
-                    <div className="flex w-[50%] justify-center">
+                    <div className="w-[50%] flex justify-center">
                         <Image
                             className="w-[60%] bg-white text-black text-[18px] flex justify-center items-center"
                             src="/thinking_man.svg"
@@ -23,7 +23,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="w-full bg-[#f3f2f0] pbs-8 pbe-8 my-8 flex items-center justify-between gap-[1rem]">
-                    <div className="flex w-[50%] items-center justify-center">
+                    <div className="flex w-[50%] min-w-[320px] items-center justify-center">
                         <div className="w-[75%]">
                             <h2 className="text-[#a01e02] text-[30px] font-semibold">
                                 Attrapez des offres d'emploi idéales!
