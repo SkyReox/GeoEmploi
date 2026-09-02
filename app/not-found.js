@@ -6,11 +6,11 @@ export default function Custom404() {
                     <h1 className="text-[50px]">
                         Erreur 404
                     </h1>
-                    <h3 className="text-[30px]">
+                    <h2 className="text-[30px]">
                         Impossible de trouver cette page
-                    </h3>
+                    </h2>
                     <p className="text-[16px] text-gray-600">
-                        Nous ne trouvons pas la page que vous recherchez. Essayez de retourner à la page précédente ou consultez notre <a className="text-blue-500 font-semibold" href="/je-suis-admin">assistance clientèle</a> pour plus d'informations.
+                        Nous ne trouvons pas la page que vous recherchez. Essayez de retourner à la page précédente ou consultez notre <a className="text-blue-500 font-semibold" href="/assistance-clientele">assistance clientèle</a> pour plus d'informations.
                     </p>
                 </div>
             </main>
