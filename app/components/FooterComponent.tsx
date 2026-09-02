@@ -21,7 +21,7 @@ export default function FooterComponent() {
                             <a href="/test">S'inscrire</a>
                         </li>
                         <li>
-                            <a href="/je-suis-admin">Assistance clientèle</a>
+                            <a href="/assistance-clientele">Assistance clientèle</a>
                         </li>
                     </ul>
                 </div>
