@@ -27,7 +27,7 @@ export default function FooterComponent() {
                     </ul>
                 </div>
                 <div className="w-full max-w-[240px] mr-5">
-                    <h3 className="font-sans text-md font-bold mb-1text-white ">Parcourir GéoEmploi</h3>
+                    <h3 className="font-sans text-md font-bold mb-1 text-white">Parcourir GéoEmploi</h3>
                     <ul role="list">
                         <li role="listitem">
                             <a href="/map" className="text-white">Carte interactive</a>
@@ -35,7 +35,7 @@ export default function FooterComponent() {
                     </ul>
                 </div>
                 <div className="w-full max-w-[240px] mr-5">
-                    <h3 className="font-sans text-md font-bold mb-1text-white ">Législatif</h3>
+                    <h3 className="font-sans text-md font-bold mb-1 text-white">Législatif</h3>
                     <ul role="list">
                         <li role="listitem">
                             <a href="/general-terms text-white">Conditions générales d'utilisation</a>
