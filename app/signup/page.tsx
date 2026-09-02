@@ -80,6 +80,14 @@ export default function Home() {
               </select>
             </div>
           </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
+              <input type="checkbox" className="mr-2 leading-tight" />
+                Cliquez ici pour accepter nos <a href="/terms" className="text-blue-700 hover:text-blue-900">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-700 hover:text-blue-900">politique de confidentialité</a>.
+              </label>
+            </div>
+          </div>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full px-3">
               <button
@@ -88,11 +96,6 @@ export default function Home() {
               >
                 S'inscrire
               </button>
-            </div>
-          </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-              <p className="text-gray-700 text-xs italic">En vous inscrivant, vous acceptez nos <a href="/terms" className="text-blue-700 hover:text-blue-900">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-700 hover:text-blue-900">politique de confidentialité</a>.</p>
             </div>
           </div>
         <div className="flex flex-wrap -mx-3 mb-6">
