@@ -63,7 +63,7 @@ export default async function HeaderComponent() {
                 )}
                 {session && session.user && (
                     <div className="flex-1 pr-2 items-center flex justify-end">
-                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/api/auth/">Déconnexion</a>
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/api/auth/signout">Déconnexion</a>
                     </div>
                 )}
             </div>
