@@ -19,7 +19,7 @@ export const GET = withAuth(["ADMIN"], async (request) => {
       take: limit,
       orderBy: { createdAt: "desc" },
       include: {
-        giver: { select: { id: true, name: true, email: true } },
+        giver: { select: { id: true, firstname: true, lastname: true, email: true } },
         _count: { select: { applications: true } },
       },
     }),

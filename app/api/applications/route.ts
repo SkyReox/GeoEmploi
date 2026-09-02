@@ -23,7 +23,8 @@ export const GET = withAuth(["SEEKER", "GIVER"], async (request, _context, sessi
         seeker: {
           select: {
             id: true,
-            name: true,
+            firstname: true,
+            lastname: true,
             email: true,
             seekerProfile: {
               include: { skills: true, experiences: true },
