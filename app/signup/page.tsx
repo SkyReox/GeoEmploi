@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -14,7 +13,7 @@ export default function SignupPage() {
     role: "SEEKER",
     conditions: false
   });
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<string | null>(null);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -27,24 +26,24 @@ export default function SignupPage() {
       }));
     };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   console.log(formData);
-  if (formData.email ==="" || formData.firstName === "" || formData.lastName === "") {
-    setError("Veuillez remplir tous les champs.");
+  if (formData.email === "" || formData.firstName === "" || formData.lastName === "") {
+    setErrors("Veuillez remplir tous les champs.");
     return;
   }
   if (formData.password.length < 8) {
-    setError("Le mot de passe doit contenir au moins 8 caractères.");
+    setErrors("Le mot de passe doit contenir au moins 8 caractères.");
     return;
   }
   if (formData.password !== formData.passwordConfirm) {
-    setError("Les mots de passe ne correspondent pas.");
+    setErrors("Les mots de passe ne correspondent pas.");
     return;
   }
   if (!formData.conditions) {
-    setError("Vous devez accepter les conditions d'utilisation et la politique de confidentialité.");
+    setErrors("Vous devez accepter les conditions d'utilisation et la politique de confidentialité.");
     return;
   }
 
@@ -64,9 +63,12 @@ export default function SignupPage() {
     }),
   });
 
+  console.log(response);
+
   if (!response.ok) {
     const errorData = await response.json();
-    setError(errorData.error || "Une erreur est survenue lors de l'inscription.");
+    console.log(errorData);
+    setErrors(errorData?.error || "Une erreur est survenue lors de l'inscription.");
     return;
   }
 
@@ -97,6 +99,7 @@ export default function SignupPage() {
               value={formData.firstName}
               onChange={handleChange}
               placeholder="Jean-Eudes"
+              maxLength={100}
             />
           </div>
           <div className="w-full md:w-1/2 px-3">
@@ -110,6 +113,7 @@ export default function SignupPage() {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Berlier"
+              maxLength={100}
             />
           </div>
         </div>
@@ -194,9 +198,9 @@ export default function SignupPage() {
           </div>
         </div>
       </form>
-      {error && (
+      {errors && (
         <div className="mb-4 rounded-md bg-red-100 border border-red-400 p-3 text-red-700">
-          {error}
+          {errors}
         </div>
       )}
     </div>
