@@ -38,7 +38,7 @@ export default function FooterComponent() {
                     <h3 className="font-sans text-md font-bold mb-1 text-white">Législatif</h3>
                     <ul role="list">
                         <li role="listitem">
-                            <a href="/general-terms text-white">Conditions générales d'utilisation</a>
+                            <a href="/general-terms" className="text-white">Conditions générales d'utilisation</a>
                         </li>
                     </ul>
                 </div>
