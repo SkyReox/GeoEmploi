@@ -37,8 +37,10 @@ export default function LoginPage() {
       setError("Email ou mot de passe incorrect.");
       return;
     }
-
-    router.replace("/");
+    if(response.ok) {
+      router.replace("/");
+      router.refresh();
+    }
   }
 
 
