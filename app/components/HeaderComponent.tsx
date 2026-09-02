@@ -21,7 +21,7 @@ async function getDashboardHref() {
 }
 
 export default async function HeaderComponent() {
-
+    const session = await auth();
     const dashboardHref = await getDashboardHref();
     return (<header className="sticky top-0 z-1000 flex flex-col p-2 w-full bg-main-1">
         <nav className="flex justify-between">
@@ -38,7 +38,22 @@ export default async function HeaderComponent() {
                     />
                 </a>
             </div>
+            <div className="flex-1 pr-2 items-center flex justify-end">
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/map">Carte Interactive</a>
+            </div>
+
             <div className="flex justify-end">
+                {!session && (
+                    <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/login">Se connecter</a> {/* TODO: Change href when Sign up is done */}
+                    </div>)}
+                {!session && (
+                    <div className="ps-lg gap-xs items-center flex justify-end">
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/signup">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
+
+                    </div>
+
+                )}
                 {dashboardHref !== "/" && (
                     <div className="flex-1 pr-2 items-center flex justify-end">
                         <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href={dashboardHref}>
@@ -46,16 +61,11 @@ export default async function HeaderComponent() {
                         </a>
                     </div>
                 )}
-            </div>
-            <div className="flex-1 pr-2 items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/map">Carte Interactive</a>
-            </div>
-            <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/login">Se connecter</a> {/* TODO: Change href when Sign up is done */}
-            </div>
-            <div className="ps-lg gap-xs items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/signup">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
-
+                {session && session.user && (
+                    <div className="flex-1 pr-2 items-center flex justify-end">
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/api/auth/">Déconnexion</a>
+                    </div>
+                )}
             </div>
         </nav>
     </header>);
