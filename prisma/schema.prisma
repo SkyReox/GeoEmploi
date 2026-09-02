@@ -1,0 +1,113 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SEEKER
+  GIVER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role
+  firstname      String @default("")
+  lastname      String @default("")
+  banned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  seekerProfile SeekerProfile?
+  jobsPosted    Job[]           @relation("PostedJobs")
+  applications  Application[]
+}
+
+model SeekerProfile {
+  id            String        @id @default(cuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio           String?
+  availability  Availability  @default(FULL_TIME)
+  availableFrom DateTime?
+  updatedAt     DateTime      @updatedAt
+
+  skills      Skill[]
+  experiences Experience[]
+}
+
+enum Availability {
+  FULL_TIME
+  PART_TIME
+  FREELANCE
+  INTERNSHIP
+  NOT_AVAILABLE
+}
+
+model Skill {
+  id        String     @id @default(cuid())
+  name      String
+  profileId String
+  profile   SeekerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, name])
+}
+
+model Experience {
+  id          String        @id @default(cuid())
+  title       String
+  company     String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  profileId   String
+  profile     SeekerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Job {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  location    String
+  salary      Int?
+  status      JobStatus @default(PENDING)
+  giverId     String
+  giver       User      @relation("PostedJobs", fields: [giverId], references: [id], onDelete: Cascade)
+  applications Application[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum JobStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CLOSED
+}
+
+model Application {
+  id        String            @id @default(cuid())
+  jobId     String
+  job       Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  seekerId  String
+  seeker    User              @relation(fields: [seekerId], references: [id], onDelete: Cascade)
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  @@unique([jobId, seekerId])
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
