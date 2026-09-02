@@ -21,6 +21,8 @@ async function getDashboardHref() {
 }
 
 export default async function HeaderComponent() {
+
+    const dashboardHref = await getDashboardHref();
     return (<header className="sticky top-0 flex flex-col p-2 w-full bg-main-1">
         <nav className="flex justify-center">
             <div className="pe-lg flex gap-xs items-center justify-start">
