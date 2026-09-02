@@ -42,6 +42,14 @@ export default function SignupPage() {
     setErrors("Les mots de passe ne correspondent pas.");
     return;
   }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(formData.email)) {
+    setErrors("Veuillez entrer une adresse e-mail valide.");
+    return;
+  }
+
   if (!formData.conditions) {
     setErrors("Vous devez accepter les conditions d'utilisation et la politique de confidentialité.");
     return;
