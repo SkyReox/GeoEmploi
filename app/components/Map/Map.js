@@ -36,9 +36,10 @@ function Map() {
     return (
         <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '100vh', width: '100%' }} scrollWheelZoom={true}>
             <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'
+              url="https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png"
             />
+
             <LocationMarker />
         </MapContainer>
     );
