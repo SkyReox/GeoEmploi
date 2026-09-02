@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import React, { useState } from 'react';
-
+import SearchBar from './SearchHandler';
 function LocationMarker() {
   const [position, setPosition] = useState(null);
 
@@ -46,6 +46,7 @@ function Map() {
         url="https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png"
       />
       <LocationMarker />
+      <SearchBar />
     </MapContainer>
   );
 }
