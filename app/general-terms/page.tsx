@@ -7,11 +7,11 @@ export const metadata = {
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
-            <main className="flex flex-1 w-full flex-col items-center justify-start py-16 px-16 bg-white bg-main-2 text-black text-[20px] sm:items-start">
-                <h1 className="text-[50px] font-semibold">
+            <main className="flex flex-1 w-full flex-col items-center justify-start my-8 px-8 bg-white bg-main-2 text-black text-[20px] sm:items-start">
+                <h1 className="text-[30px] font-semibold">
                     Conditions générales d'utilisation
                 </h1>
-                <div className="py-8">
+                <div className="w-full p-8">
                     <ol role="list" className="list-decimal font-semibold">
                         <li role="listitem">
                             <div>
