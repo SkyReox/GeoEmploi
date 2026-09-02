@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 });
   }
 
-  const { email, password, name, role } = result.data;
+  const { email, password, firstname, lastname, role } = result.data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
   const user = await prisma.$transaction(async (tx) => {
     const newUser = await tx.user.create({
-      data: { email, password: hashedPassword, name, role },
+      data: { email, password: hashedPassword, firstname, lastname, role },
     });
 
     if (role === "SEEKER") {

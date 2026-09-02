@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       skip: (page - 1) * limit,
       take: limit,
       orderBy: { createdAt: "desc" },
-      include: { giver: { select: { id: true, name: true } } },
+      include: { giver: { select: { id: true, firstname: true, lastname: true } } },
     }),
     prisma.job.count({ where }),
   ]);
