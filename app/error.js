@@ -8,9 +8,9 @@ export default function Error({ statusCode, message }) {
                     <h1 className="text-[50px]">
                         Erreur {statusCode ? statusCode : 500}
                     </h1>
-                    <h3 className="text-[30px]">
+                    <h2 className="text-[30px]">
                         Erreur serveur
-                    </h3>
+                    </h2>
                     <p className="text-[16px] text-gray-600">
                         Le serveur a rencontré une erreur interne ou une mauvaise configuration et n'a pas pu traiter votre demande.
                     </p>
