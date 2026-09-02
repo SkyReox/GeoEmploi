@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -69,10 +70,16 @@ export default function SignupPage() {
     return;
   }
 
-  const data = await response.json();
-
-  console.log(data);
-  router.replace("/");
+  const signInResponse = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password
+      });
+  if(signInResponse.ok) {
+    router.replace("/");
+    router.refresh();
+  }
+  
 };
 
   return (
