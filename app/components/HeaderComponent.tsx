@@ -4,7 +4,7 @@ import Image from "next/image";
 async function getDashboardHref() {
     const session = await auth();
     if (!session || !session.user) {
-        return "/dashboards/admin";
+        return "/";
     }
 
     const role = session.user.role;
@@ -46,6 +46,7 @@ export default async function HeaderComponent() {
                         </a>
                     </div>
                 )}
+            </div>
             <div className="flex-1 pr-2 items-center flex justify-end">
                 <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/map">Carte Interactive</a>
             </div>
