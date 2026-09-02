@@ -23,7 +23,7 @@ async function getDashboardHref() {
 export default async function HeaderComponent() {
     const session = await auth();
     const dashboardHref = await getDashboardHref();
-    return (<header className="sticky top-0 z-1000 flex flex-col p-2 w-full bg-main-1">
+    return (<header className="sticky top-0 z-10000 flex flex-col p-2 w-full bg-main-1">
         <nav className="flex justify-between">
             <div className="pe-lg flex gap-xs items-center justify-start">
                 <a href="/">
