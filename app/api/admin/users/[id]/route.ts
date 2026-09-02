@@ -34,7 +34,7 @@ export async function PUT(
   const updated = await prisma.user.update({
     where: { id },
     data: { banned: result.data.banned },
-    select: { id: true, email: true, name: true, role: true, banned: true },
+    select: { id: true, email: true, firstname: true, lastname: true, role: true, banned: true },
   });
 
   return NextResponse.json(updated);

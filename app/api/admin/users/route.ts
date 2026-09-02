@@ -19,7 +19,8 @@ export const GET = withAuth(["ADMIN"], async (request) => {
       select: {
         id: true,
         email: true,
-        name: true,
+        firstname: true,
+        lastname: true,
         role: true,
         banned: true,
         createdAt: true,
