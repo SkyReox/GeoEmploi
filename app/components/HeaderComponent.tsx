@@ -48,10 +48,10 @@ export default async function HeaderComponent() {
                 <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="map">Carte Interactive</a>
             </div>
             <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">Se connecter</a> {/* TODO: Change href when Sign up is done */}
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="login">Se connecter</a> {/* TODO: Change href when Sign up is done */}
             </div>
             <div className="ps-lg gap-xs items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="test">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="signup">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
             </div>
         </nav>
     </header>);
