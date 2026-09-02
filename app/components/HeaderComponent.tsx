@@ -38,10 +38,10 @@ export default async function HeaderComponent() {
                     />
                 </a>
             </div>
-            <div className="flex-1 pr-2 items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/map">Carte Interactive</a>
-            </div>
             <div className="flex justify-end">
+                <div className="flex-1 pr-2 items-center flex justify-end">
+                    <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/map">Carte Interactive</a>
+                </div>
                 {!session && (
                     <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
                         <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/login">Se connecter</a>
