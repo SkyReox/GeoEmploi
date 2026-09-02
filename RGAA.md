@@ -27,3 +27,19 @@ En cas de daltonisme, il faut impérativement toujours avoir accès aux informat
 #### Pourquoi ?
 
 Un mauvais contraste de couleurs empêcherait la lecture, ce qui est inacceptable.
+
+### 6.1 Chaque lien est-il explicite (hors cas particuliers) ? ✅
+
+**Dernière vérification:** 02/09/2026 11:15
+
+#### Pourquoi ?
+
+Il faut éviter que les clients changent sans le vouloir de page en cliquant sur un lien qui ne paraît pas en être un. Dans un autre cas, lorsqu'ils veulent être redirigés vers une page spécifique, qu'ils soient sur la page voulue et non une autre.
+
+### 6.2 ans chaque page web, chaque lien a-t-il un intitulé ? ✅
+
+**Dernière vérification:** 02/09/2026 11:28
+
+#### Pourquoi ?
+
+Un lien sans intitulé ne donne aucune information sur la page sur laquelle il redirige. Ainsi, sans intitulé, un lien n'a aucun sens à la vue du client.
