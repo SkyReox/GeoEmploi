@@ -14,7 +14,7 @@ export default function Home() {
                         <Image
                             className="w-[60%] bg-white text-black text-[18px] flex justify-center items-center"
                             src="/thinking_man.svg"
-                            alt="Thinking Man Image"
+                            alt="Image d'un homme qui pense devant un ordinateur"
                             aria-hidden="true"
                             width={100}
                             height={100}
@@ -35,7 +35,7 @@ export default function Home() {
                         <Image
                             className="w-[50%] bg-[#f3f2f0] text-black flex items-center justify-center text-[18px]"
                             src="/fuentes.png"
-                            alt="Fuentes Image"
+                            alt="Image d'un profil utilisateur"
                             aria-hidden="true"
                             width={463}
                             height={463}

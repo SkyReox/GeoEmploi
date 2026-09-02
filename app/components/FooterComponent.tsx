@@ -7,7 +7,7 @@ export default function FooterComponent() {
                 <Image
                     className="h-full object-contain text-white text-[16px] flex items-center justify-center text-center"
                     src="/goat.png"
-                    alt="Jean-Eudes Berlier Image"
+                    alt="Logo de l'entreprise JEB"
                     width={100}
                     height={100}
                     priority
