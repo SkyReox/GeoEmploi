@@ -1,14 +1,14 @@
 import Image from "next/image";
 
 export default function HeaderComponent() {
-    return (<header className="flex flex-col p-2 w-full bg-main-1">
+    return (<header className="sticky top-0 flex flex-col p-2 w-full bg-main-1">
         <nav className="flex justify-center">
             <div className="pe-lg flex gap-xs items-center justify-start">
                 <a href="/">
                     <Image
                         className="w-8"
-                        src="/icon.png"
-                        alt="GeoEmploi Icon"
+                        src="/jeb.png"
+                        alt="Jeb Icon"
                         width={100}
                         height={100}
                         priority
