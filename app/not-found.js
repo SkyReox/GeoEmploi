@@ -10,7 +10,7 @@ export default function Custom404() {
                         Impossible de trouver cette page
                     </h2>
                     <p className="text-[16px] text-gray-600">
-                        Nous ne trouvons pas la page que vous recherchez. Essayez de retourner à la page précédente ou consultez notre <a className="text-blue-500 font-semibold" href="/assistance-clientele">assistance clientèle</a> pour plus d'informations.
+                        Nous ne trouvons pas la page que vous recherchez. Essayez de retourner à la page précédente ou consultez notre <a className="text-blue-500 font-semibold underline" href="/assistance-clientele">assistance clientèle</a> pour plus d'informations.
                     </p>
                 </div>
             </main>

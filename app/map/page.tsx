@@ -1,4 +1,9 @@
 import Map from "../components/Map"
+export const metadata = {
+    title: "Carte Interactive",
+    description: "Carte interactive des offres d'emploi",
+}
+
 
 export default function Home() {
     return (
