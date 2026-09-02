@@ -12,9 +12,9 @@ export default function Home() {
                     </div>
                     <div className="flex w-[50%] justify-center">
                         <Image
-                            className="w-[60%]"
+                            className="w-[60%] bg-white text-black text-[18px] flex justify-center items-center"
                             src="/thinking_man.svg"
-                            alt="Thinking Man"
+                            alt="Thinking Man Image"
                             width={100}
                             height={100}
                             priority
@@ -32,9 +32,9 @@ export default function Home() {
                     </div>
                     <div className="flex w-[50%] justify-center">
                         <Image
-                            className="w-[50%]"
+                            className="w-[50%] bg-[#f3f2f0] text-black flex items-center justify-center text-[18px]"
                             src="/fuentes.png"
-                            alt="Fuentes"
+                            alt="Fuentes Image"
                             width={463}
                             height={463}
                             priority

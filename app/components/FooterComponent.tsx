@@ -5,9 +5,9 @@ export default function FooterComponent() {
         <nav className="flex w-[80%] justify-center">
             <div className="flex">
                 <Image
-                    className="h-full object-contain"
-                    src="/icon.png"
-                    alt="GeoEmploi Icon"
+                    className="h-full object-contain text-white text-[16px] flex items-center justify-center text-center"
+                    src="/goat.png"
+                    alt="Jean-Eudes Berlier Image"
                     width={100}
                     height={100}
                     priority

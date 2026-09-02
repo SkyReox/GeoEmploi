@@ -28,7 +28,7 @@ export default async function HeaderComponent() {
             <div className="pe-lg flex gap-xs items-center justify-start">
                 <a href="/">
                     <Image
-                        className="w-8"
+                        className="w-16 h-16 bg-white flex text-black justify-center items-center"
                         src="/jeb.png"
                         alt="Jeb Icon"
                         width={100}
