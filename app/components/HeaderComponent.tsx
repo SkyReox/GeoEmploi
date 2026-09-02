@@ -39,31 +39,28 @@ export default async function HeaderComponent() {
                 </a>
             </div>
             <div className="flex-1 pr-2 items-center flex justify-end">
-                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/map">Carte Interactive</a>
+                <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/map">Carte Interactive</a>
             </div>
-
             <div className="flex justify-end">
                 {!session && (
                     <div className="pr-2 ps-lg gap-xs items-center flex justify-end">
-                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/login">Se connecter</a> {/* TODO: Change href when Sign up is done */}
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/login">Se connecter</a>
                     </div>)}
                 {!session && (
                     <div className="ps-lg gap-xs items-center flex justify-end">
-                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/signup">S'inscrire</a> {/* TODO: Change href when Sign in is done */}
-
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/signup">S'inscrire</a>
                     </div>
-
                 )}
                 {dashboardHref !== "/" && (
                     <div className="flex-1 pr-2 items-center flex justify-end">
-                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href={dashboardHref}>
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href={dashboardHref}>
                             Dashboard
                         </a>
                     </div>
                 )}
                 {session && session.user && (
                     <div className="flex-1 pr-2 items-center flex justify-end">
-                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 shadow-md" href="/api/auth/signout">Déconnexion</a>
+                        <a className="bg-white text-black p-1 rounded-[.5rem] hover:bg-gray-300 outline-0 outline-gray-300 outline-offset-1 hover:outline-2 shadow-md" href="/api/auth/signout">Déconnexion</a>
                     </div>
                 )}
             </div>
