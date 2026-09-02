@@ -40,6 +40,11 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
+            <p className="text-gray-700 text-xs italic">Vous n'avez pas de compte ? <a href="/signup" className="text-blue-700 hover:text-blue-900">Inscrivez-vous ici</a>.</p>
+          </div>
+        </div>
       </form>
     </div>
   );
