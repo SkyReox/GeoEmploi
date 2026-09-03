@@ -98,7 +98,7 @@ export default function SignupPage() {
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="w-full md:w-1/2">
             <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="firstName">
-              Prénom
+              Prénom<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -108,11 +108,12 @@ export default function SignupPage() {
               onChange={handleChange}
               placeholder="Jean-Eudes"
               maxLength={100}
+              aria-required="true"
             />
           </div>
           <div className="w-full md:w-1/2">
             <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="lastName">
-              Nom de famille
+              Nom de famille<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -122,13 +123,14 @@ export default function SignupPage() {
               onChange={handleChange}
               placeholder="Berlier"
               maxLength={100}
+              aria-required="true"
             />
           </div>
         </div>
         <div>
           <div className="w-full">
             <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="email">
-              Adresse e-mail
+              Adresse e-mail<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -137,6 +139,7 @@ export default function SignupPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="jeaneudes.berlier@gouv.fr"
+              aria-required="true"
             />
           </div>
         </div>
@@ -147,7 +150,7 @@ export default function SignupPage() {
           <div>
             <div className="w-full">
               <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
-                Mot de passe
+                Mot de passe<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -156,6 +159,7 @@ export default function SignupPage() {
                 onChange={handleChange}
                 type="password"
                 placeholder="******************"
+                aria-required="true"
               />
               <p className="text-gray-700 text-xs italic">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
             </div>
@@ -163,7 +167,7 @@ export default function SignupPage() {
           <div>
             <div className="w-full">
               <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="passwordConfirm">
-                Confirmer le mot de passe
+                Confirmer le mot de passe<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -172,25 +176,27 @@ export default function SignupPage() {
                 value={formData.passwordConfirm}
                 onChange={handleChange}
                 placeholder="******************"
+                aria-required="true"
               />
             </div>
           </div>
         </fieldset>
-      <div>
-          <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="role">
-              Statut
-            </label>
-            <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
-              <option value="SEEKER">Chercheur</option>
-              <option value="GIVER">Recruteur</option>
-            </select>
-          </div>
+        <div className="w-full">
+          <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="role">
+            Statut
+          </label>
+          <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
+            <option value="SEEKER">Chercheur</option>
+            <option value="GIVER">Recruteur</option>
+          </select>
         </div>
-      <div>
+        <div className="mb-2">
+          <p className="text-gray-700 text-sm italic"><span className="text-red-500">*</span> Champ obligatoire</p>
+        </div>
+        <div>
           <div className="w-full">
             <label className="flex items-start gap-2 text-xs font-bold leading-relaxed text-gray-900" htmlFor="conditions">
-              <input id="conditions" onChange={handleChange} checked={formData.conditions} type="checkbox" className="mt-0.5 shrink-0 leading-tight" />
+              <input id="conditions" onChange={handleChange} checked={formData.conditions} type="checkbox" className="mt-0.5 shrink-0 leading-tight"/>
               <span>Cliquez ici pour accepter nos <a href="/terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.</span>
             </label>
           </div>
@@ -206,16 +212,16 @@ export default function SignupPage() {
             </button>
           </div>
         </div>
-      <div>
+        <div>
           <div className="w-full">
             <p className="text-gray-700 text-xs italic">Vous avez déjà un compte ? <a href="/login" className="text-blue-700 hover:text-blue-900">Connectez-vous ici</a>.</p>
           </div>
         </div>
         {errors && (
-        <div className="break-words rounded-md border border-red-400 bg-red-100 p-3 text-red-700">
-          {errors}
-        </div>
-      )}
+          <div className="break-words rounded-md border border-red-400 bg-red-100 p-3 text-red-700">
+            {errors}
+          </div>
+        )}
       </form>
     </div>
   );
