@@ -1,0 +1,86 @@
+name: Build GeoEmploi
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 22
+  DATABASE_URL: postgresql://geo_emploi:geo_emploi_dev@127.0.0.1:5432/geo_emploi
+  # AUTH_SECRET: ci-build-secret-not-for-production-please-replace
+  ARTIFACT_NAME: geoemploi-build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: geo_emploi
+          POSTGRES_PASSWORD: geo_emploi_dev
+          POSTGRES_DB: geo_emploi
+        options: >-
+          --health-cmd "pg_isready -U geo_emploi -d geo_emploi"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Synchronize database schema
+        run: npx prisma db push
+
+      - name: Seed database
+        run: npx prisma db seed
+
+      - name: Build
+        run: npm run build
+
+      - name: Prepare deployable artifact
+        run: |
+          mkdir -p artifact/.next
+          cp -a .next/standalone/. artifact/
+          cp -a .next/static artifact/.next/static
+          if [ -d public ]; then cp -a public artifact/public; fi
+
+      - name: Validate artifact
+        run: |
+          test -f artifact/server.js
+          test -d artifact/.next/static
+          test -d artifact/node_modules
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: artifact/
+          if-no-files-found: error
+          retention-days: 14
