@@ -1,7 +1,10 @@
 import { useMap } from 'react-leaflet';
+import { useState } from 'react';
+import { Marker, Popup } from 'react-leaflet';
 
 export default function ShowAllJobsButton() {
   const map = useMap();
+  const  [jobs, setJobs] = useState([]);
 
   async function handleClick() {
     try {
@@ -17,9 +20,9 @@ export default function ShowAllJobsButton() {
       );
       
       if (validJobs.length > 0) {
-        const bounds = validJobs.map((job) => [job.latitude, job.longitude]);
-        map.fitBounds(bounds);
+        setJobs(validJobs);
       } else {
+        setJobs([]);
         alert("Aucun emploi trouvé.");
       }
     } catch (err) {
@@ -28,6 +31,7 @@ export default function ShowAllJobsButton() {
   }
 
   return (
+    <>
     <button
       onClick={handleClick}
       style={{
@@ -45,5 +49,22 @@ export default function ShowAllJobsButton() {
     >
       All Jobs
     </button>
+
+    {jobs.map((job) => (
+        <Marker key={job.id} position={[job.latitude, job.longitude]} icon={L.icon({ iconUrl: 'pointer.png', iconSize: [15, 20] })}>
+          <Popup>
+            <strong>{job.title}</strong>
+            <br />
+            {job.location}
+            {job.salary && (
+              <>
+                <br />
+                {job.salary} €
+              </>
+            )}
+          </Popup>
+        </Marker>
+      ))}
+    </>
   );
 }
