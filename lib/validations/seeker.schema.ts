@@ -4,7 +4,7 @@ import { Availability } from "@prisma/client";
 export const UpdateProfileSchema = z.object({
   bio: z.string().max(1000).optional(),
   availability: z.nativeEnum(Availability),
-  availableFrom: z.string().datetime().optional(),
+  availableFrom: z.string().optional(),
 });
 
 export const CreateSkillSchema = z.object({
@@ -15,14 +15,10 @@ export const CreateExperienceSchema = z
   .object({
     title: z.string().min(1).max(200),
     company: z.string().min(1).max(200),
-    startDate: z.string().datetime(),
-    endDate: z.string().datetime().optional(),
+    startDate: z.string(),
+    endDate: z.string().optional(),
     description: z.string().max(2000).optional(),
   })
-  .refine(
-    (data) => !data.endDate || new Date(data.endDate) >= new Date(data.startDate),
-    { message: "endDate doit être après startDate", path: ["endDate"] }
-  );
 
 export const UpdateExperienceSchema = z
   .object({
