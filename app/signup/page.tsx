@@ -141,6 +141,9 @@ export default function SignupPage() {
           </div>
         </div>
         <fieldset>
+          <label className="text-gray-900 font-bold mb-2">
+            Sécurité
+          </label>
           <div>
             <div className="w-full">
               <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
@@ -197,6 +200,7 @@ export default function SignupPage() {
             <button
               className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none focus:shadow-outline sm:w-auto"
               type="submit"
+              aria-label="S'inscrire"
             >
               S'inscrire
             </button>
