@@ -4,6 +4,8 @@ import ShowAllJobsButton from './JobHandler';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import React, { useState } from 'react';
+import { LAYERS } from './LayerSwitcher';
+import LayerSwitcher from './LayerSwitcher';
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
@@ -70,18 +72,21 @@ function LocateButton() {
       }}
       title="Me recentrer"
     >
-      📍
+      ➤
     </button>
   );
 }
 
 function Map() {
+  const [activeLayer, setActiveLayer] = useState('ortho');
   return (
     <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true}>
       <TileLayer
+        key={activeLayer}
         attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'
-        url="https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png"
+        url={LAYERS[activeLayer].url}
       />
+      <LayerSwitcher activeLayer={activeLayer} setActiveLayer={setActiveLayer} />
       <LocationMarker />
       <LocateButton />
       <SearchBar />
