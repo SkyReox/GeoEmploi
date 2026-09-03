@@ -70,7 +70,7 @@ export default function SearchBar() {
       zIndex: 1000,
       width: 320,
     }}>
-      <div style={{ display: 'flex', gap: '4px' }}>
+      <div style={{ display: 'flex', gap: '4px', color: 'black' }}>
         <input
           type="text"
           value={query}
