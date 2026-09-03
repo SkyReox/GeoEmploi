@@ -18,8 +18,11 @@
     "@auth/prisma-adapter": "^1.0.0",
     "@prisma/client": "^6.0.0",
     "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^1.0.0-rc.4",
     "next": "16.3.3",
     "next-auth": "5.0.0-beta.32",
+    "pg": "^8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-leaflet": "^5.0.0",
@@ -31,13 +34,16 @@
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^1.0.0-rc.4",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
     "prisma": "^6.0.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

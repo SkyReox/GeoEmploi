@@ -77,6 +77,8 @@ model Job {
   title       String
   description String
   location    String
+  latitude    Float?
+  longitude   Float?
   salary      Int?
   status      JobStatus @default(PENDING)
   giverId     String

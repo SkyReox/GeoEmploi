@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Popup, useMap } from 'react-leaflet';
-import { Marker } from 'react-leaflet';
+import { useMap } from 'react-leaflet';
+
 export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);

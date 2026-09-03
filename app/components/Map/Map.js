@@ -1,8 +1,9 @@
 import 'leaflet/dist/leaflet.css';
+import SearchBar from './SearchHandler';
+import ShowAllJobsButton from './JobHandler';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import React, { useState } from 'react';
-import SearchBar from './SearchHandler';
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
@@ -84,6 +85,7 @@ function Map() {
       <LocationMarker />
       <LocateButton />
       <SearchBar />
+      <ShowAllJobsButton />
     </MapContainer>
   );
 }

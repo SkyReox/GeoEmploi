@@ -4,7 +4,6 @@ export const metadata = {
     description: "Carte interactive des offres d'emploi",
 }
 
-
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
@@ -13,4 +12,4 @@ export default function Home() {
             </main>
         </div>
     );
-}   
+}
