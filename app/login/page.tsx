@@ -45,11 +45,11 @@ export default function LoginPage() {
 
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans bg-main-2">
-      <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-email">
+    <div className="flex min-w-0 flex-1 flex-col items-center justify-center overflow-x-hidden bg-zinc-50 px-3 py-8 font-sans bg-main-2 sm:px-6 sm:py-12">
+      <form className="w-full max-w-lg mt-[1.25rem]" onSubmit={handleSubmit}>
+        <div>
+          <div className="w-full">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="email">
               Adresse e-mail
             </label>
             <input
@@ -62,8 +62,8 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+        <div>
+          <div className="w-full">
             <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
               Mot de passe
             </label>
@@ -77,23 +77,23 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+        <div>
+          <div className="w-full">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none focus:shadow-outline sm:w-auto"
               type="submit"
             >
               Se connecter
             </button>
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+        <div>
+          <div className="w-full">
             <p className="text-gray-700 text-xs italic">Vous n'avez pas de compte ? <a href="/signup" className="text-blue-700 hover:text-blue-900">Inscrivez-vous ici</a>.</p>
           </div>
         </div>
         {error && (
-        <div className="mb-4 rounded-md bg-red-100 border border-red-400 p-3 text-red-700">
+        <div className="break-words rounded-md border border-red-400 bg-red-100 p-3 text-red-700">
           {error}
         </div>
       )}

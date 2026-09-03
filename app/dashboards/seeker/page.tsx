@@ -196,7 +196,10 @@ export default function Home() {
   }
 
   return (
-    <div className="mx-auto mt-[1,5rem] flex w-full flex-1 flex-col space-y-6 bg-white px-4 py-8 text-black">
+
+    <div className="mx-auto mt-[1,5rem] flex w-full flex-1 flex-col bg-white px-4 py-8 text-black">
+
+
 
       <div>
         <h1 className="text-2xl font-semibold text-ink">
