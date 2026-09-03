@@ -8,7 +8,7 @@ export default async function Home() {
   const session = await auth();
 
   return (
-    <div className="mx-auto space-y-6 px-4 py-8 bg-white text-black w-full flex flex-col flex-1">
+    <div className="mx-auto mt-[1.5rem] px-4 py-8 bg-white text-black w-full flex flex-col flex-1">
       <div>
         <h1 className="text-2xl font-semibold text-ink">Bonjour {/*session.user.name*/}</h1>
         <p className="text-sm text-neutral">Voici un aperçu de votre activité</p>

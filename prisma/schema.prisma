@@ -37,7 +37,7 @@ model SeekerProfile {
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   bio           String?
   availability  Availability  @default(FULL_TIME)
-  availableFrom DateTime?
+  availableFrom String?
   updatedAt     DateTime      @updatedAt
 
   skills      Skill[]
@@ -65,8 +65,8 @@ model Experience {
   id          String        @id @default(cuid())
   title       String
   company     String
-  startDate   DateTime
-  endDate     DateTime?
+  startDate   String
+  endDate     String?
   description String?
   profileId   String
   profile     SeekerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
