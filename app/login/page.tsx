@@ -49,7 +49,7 @@ export default function LoginPage() {
       <form className="w-full max-w-lg mt-[1.25rem]" onSubmit={handleSubmit}>
         <div>
           <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-email">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="email">
               Adresse e-mail
             </label>
             <input

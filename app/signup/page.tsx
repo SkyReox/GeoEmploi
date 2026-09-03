@@ -97,7 +97,7 @@ export default function SignupPage() {
       <form className="w-full max-w-lg mt-[1.25rem]" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="w-full md:w-1/2">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-first-name">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="firstName">
               Prénom
             </label>
             <input
@@ -111,7 +111,7 @@ export default function SignupPage() {
             />
           </div>
           <div className="w-full md:w-1/2">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-last-name">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="lastName">
               Nom de famille
             </label>
             <input
@@ -127,7 +127,7 @@ export default function SignupPage() {
         </div>
         <div>
           <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-email">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="email">
               Adresse e-mail
             </label>
             <input
@@ -140,40 +140,42 @@ export default function SignupPage() {
             />
           </div>
         </div>
-        <div>
-          <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
-              Mot de passe
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              placeholder="******************"
-            />
-            <p className="text-gray-700 text-xs italic">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+        <fieldset>
+          <div>
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
+                Mot de passe
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                placeholder="******************"
+              />
+              <p className="text-gray-700 text-xs italic">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+            </div>
           </div>
-        </div>
-        <div>
-          <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password-confirm">
-              Confirmer le mot de passe
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="passwordConfirm"
-              type="password"
-              value={formData.passwordConfirm}
-              onChange={handleChange}
-              placeholder="******************"
-            />
+          <div>
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="passwordConfirm">
+                Confirmer le mot de passe
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="passwordConfirm"
+                type="password"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+                placeholder="******************"
+              />
+            </div>
           </div>
-        </div>
+        </fieldset>
       <div>
           <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="role">
               Statut
             </label>
             <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
