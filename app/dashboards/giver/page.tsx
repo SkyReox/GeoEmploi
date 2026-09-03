@@ -10,6 +10,20 @@ import {
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 
+type Application = {
+  id: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  message?: string | null;
+  createdAt?: string;
+
+  seeker?: {
+    id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+  };
+};
+
 type User = {
   id: string;
   firstname: string;
@@ -50,6 +64,11 @@ export default function GiverDashboard() {
 
   const [savingProfile, setSavingProfile] = useState(false);
   const [savingJob, setSavingJob] = useState(false);
+  const [openJobId, setOpenJobId] = useState<string | null>(null);
+
+  const [applicationsByJob, setApplicationsByJob] = useState<Record<string, Application[]>>({});
+  const [loadingApplications, setLoadingApplications] = useState<Record<string, boolean>>({});
+  const [updatingApplication, setUpdatingApplication] = useState<string | null>(null);
 
   /*
    * Chargement du user et des jobs
@@ -97,6 +116,113 @@ export default function GiverDashboard() {
 
     loadDashboard();
   }, []);
+
+  const handleUpdateApplication = async (
+    applicationId: string,
+    jobId: string,
+    status: "ACCEPTED" | "REJECTED"
+  ) => {
+    setUpdatingApplication(applicationId);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `/api/applications/${applicationId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status,
+          }),
+        }
+      );
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Impossible de modifier la candidature."
+        );
+      }
+
+      setApplicationsByJob((prev) => ({
+        ...prev,
+        [jobId]: (prev[jobId] || []).map((application) =>
+          application.id === applicationId
+            ? {
+                ...application,
+                status,
+              }
+            : application
+        ),
+      }));
+    } catch (error) {
+      console.error(error);
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Impossible de modifier la candidature."
+      );
+    } finally {
+      setUpdatingApplication(null);
+    }
+  };
+  const handleToggleApplications = async (jobId: string) => {
+    if (openJobId === jobId) {
+      setOpenJobId(null);
+      return;
+    }
+
+    setOpenJobId(jobId);
+    setError("");
+
+    if (applicationsByJob[jobId]) {
+      return;
+    }
+
+    setLoadingApplications((prev) => ({
+      ...prev,
+      [jobId]: true,
+    }));
+
+    try {
+      const response = await fetch(
+        `/api/applications?jobId=${jobId}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Impossible de récupérer les candidatures."
+        );
+      }
+
+      const applications: Application[] = Array.isArray(data)
+        ? data
+        : data.applications || [];
+
+      setApplicationsByJob((prev) => ({
+        ...prev,
+        [jobId]: applications,
+      }));
+    } catch (error) {
+      console.error(error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Impossible de récupérer les candidatures."
+      );
+    } finally {
+      setLoadingApplications((prev) => ({
+        ...prev,
+        [jobId]: false,
+      }));
+    }
+  };
 
   /*
    * Modification du profil
@@ -557,7 +683,7 @@ export default function GiverDashboard() {
                     value={jobSalary}
                     onChange={(e) => setJobSalary(e.target.value)}
                     placeholder="Ex : 35000"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+                    className="w-full rounded-md border border-border px-3 py-2 text-sm"
                   />
                   </div>
 
@@ -597,8 +723,9 @@ export default function GiverDashboard() {
                   {jobsData.map((job) => (
                     <div
                       key={job.id}
-                      className="flex flex-col rounded-lg bg-main-1 px-4 py-4 text-sm text-white"
+                      className="flex flex-col mt-2 rounded-lg bg-main-1 px-4 py-4 text-sm text-white"
                     >
+                      {/* Informations de l'offre */}
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex flex-col">
                           <span className="font-medium font-semibold">
@@ -634,14 +761,14 @@ export default function GiverDashboard() {
                         </div>
                       )}
 
-                      {job.salary && (
+                      {job.salary !== null && job.salary !== undefined && (
                         <div className="mt-2">
                           <span className="font-medium font-semibold">
                             Salaire :
                           </span>
 
                           <span className="ml-2 text-neutral">
-                            {job.salary}
+                            {job.salary.toLocaleString("fr-FR")} €
                           </span>
                         </div>
                       )}
@@ -669,27 +796,147 @@ export default function GiverDashboard() {
                           </span>
                         </div>
                       )}
+
+                      {/* Candidatures */}
+                      <div className="mt-4 border-t border-white/20 pt-4">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleApplications(job.id)}
+                          className="w-full rounded-lg border border-white/20 px-3 py-2 text-left text-sm font-semibold transition-colors hover:bg-white/10"
+                        >
+                          {openJobId === job.id
+                            ? "Masquer les candidatures"
+                            : "Voir les candidatures"}
+                        </button>
+
+                        {openJobId === job.id && (
+                          <div className="mt-3 rounded-lg bg-white p-4 text-black">
+                            {loadingApplications[job.id] ? (
+                              <p className="text-sm text-neutral">
+                                Chargement des candidatures...
+                              </p>
+                            ) : !applicationsByJob[job.id] ||
+                              applicationsByJob[job.id].length === 0 ? (
+                              <p className="text-sm text-neutral">
+                                Aucune candidature pour cette offre.
+                              </p>
+                            ) : (
+                              <div className="space-y-3">
+                                <p className="text-sm font-semibold text-ink">
+                                  {applicationsByJob[job.id].length}{" "}
+                                  {applicationsByJob[job.id].length > 1
+                                    ? "candidatures"
+                                    : "candidature"}
+                                </p>
+
+                                {applicationsByJob[job.id].map((application) => (
+                                  <div
+                                    key={application.id}
+                                    className="rounded-lg border border-dashed border-border p-4"
+                                  >
+                                    {/* Identité du candidat */}
+                                    <div className="flex flex-wrap items-start justify-between gap-3">
+                                      <div>
+                                        <p className="font-semibold text-ink">
+                                          {application.seeker
+                                            ? `${application.seeker.firstname} ${application.seeker.lastname}`
+                                            : "Candidat"}
+                                        </p>
+
+                                        {application.seeker?.email && (
+                                          <p className="mt-1 text-sm text-neutral">
+                                            {application.seeker.email}
+                                          </p>
+                                        )}
+                                      </div>
+
+                                      <Badge>
+                                        {application.status === "PENDING"
+                                          ? "En attente"
+                                          : application.status === "ACCEPTED"
+                                          ? "Acceptée"
+                                          : "Rejetée"}
+                                      </Badge>
+                                    </div>
+
+                                    {/* Message */}
+                                    {application.message && (
+                                      <div className="mt-4">
+                                        <p className="text-sm font-semibold text-ink">
+                                          Message du candidat
+                                        </p>
+
+                                        <p className="mt-1 whitespace-pre-wrap text-sm text-neutral">
+                                          {application.message}
+                                        </p>
+                                      </div>
+                                    )}
+
+                                    {/* Date */}
+                                    {application.createdAt && (
+                                      <div className="mt-3">
+                                        <p className="text-xs text-neutral">
+                                          Candidature envoyée le{" "}
+                                          {formatDate(application.createdAt)}
+                                        </p>
+                                      </div>
+                                    )}
+
+                                    {/* Actions */}
+                                    {application.status === "PENDING" && (
+                                      <div className="mt-4 flex flex-wrap gap-2">
+                                        <Button
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={() =>
+                                            handleUpdateApplication(
+                                              application.id,
+                                              job.id,
+                                              "ACCEPTED"
+                                            )
+                                          }
+                                          disabled={
+                                            updatingApplication === application.id
+                                          }
+                                        >
+                                          {updatingApplication === application.id
+                                            ? "Modification..."
+                                            : "Accepter"}
+                                        </Button>
+
+                                        <Button
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={() =>
+                                            handleUpdateApplication(
+                                              application.id,
+                                              job.id,
+                                              "REJECTED"
+                                            )
+                                          }
+                                          disabled={
+                                            updatingApplication === application.id
+                                          }
+                                        >
+                                          {updatingApplication === application.id
+                                            ? "Modification..."
+                                            : "Rejeter"}
+                                        </Button>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Candidatures reçues */}
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            Candidatures récentes
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <p className="rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-6 text-center text-sm text-neutral">
-            Aucune candidature récente.
-          </p>
         </CardContent>
       </Card>
     </div>
