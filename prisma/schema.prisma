@@ -80,7 +80,7 @@ model Job {
   latitude    Float?
   longitude   Float?
   salary      Int?
-  status      JobStatus @default(PENDING)
+  status      JobStatus? @default(PENDING)
   giverId     String
   giver       User      @relation("PostedJobs", fields: [giverId], references: [id], onDelete: Cascade)
   applications Application[]
