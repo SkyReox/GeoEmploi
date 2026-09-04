@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
   if (!session || session.user.role !== "GIVER") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
-
+  
   const body = await request.json();
   const result = CreateJobSchema.safeParse(body);
   if (!result.success) {
@@ -76,7 +76,6 @@ export async function POST(request: NextRequest) {
   }
 
   const coords = await geocodeAddress(result.data.location);
-
   const job = await prisma.job.create({
     data: {
       ...result.data,

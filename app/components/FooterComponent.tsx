@@ -13,8 +13,8 @@ export default function FooterComponent() {
                     priority
                 />
             </div>
-            <div className="flex w-full flex-col gap-4 text-center sm:w-auto sm:flex-row sm:pl-[5%] sm:text-left">
-                <div className="w-full max-w-[240px] sm:mr-5">
+            <div className="flex w-full flex-col items-center sm:items-start gap-4 text-center sm:w-auto sm:flex-row sm:pl-[5%] sm:text-left">
+                <div className="flex flex-col w-full max-w-[240px] sm:mr-5">
                     <h3 className="font-sans text-md font-bold mb-1 text-white">Général</h3>
                     <ul role="list">
                         <li role="listitem">
