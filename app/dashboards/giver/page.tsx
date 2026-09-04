@@ -491,6 +491,7 @@ export default function GiverDashboard() {
 
                   <div className="flex gap-2">
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleAddJob}
@@ -502,6 +503,7 @@ export default function GiverDashboard() {
                     </Button>
 
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleCancelJob}
