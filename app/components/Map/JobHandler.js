@@ -39,6 +39,7 @@ export default function ShowAllJobsButton() { const [jobs, setJobs] = useState([
         width: 40,
         height: 40,
         borderRadius: '50%',
+        color: "#000",
         backgroundColor: '#fff',
         border: '1px solid #ccc',
         cursor: 'pointer',
