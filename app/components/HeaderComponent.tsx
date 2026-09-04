@@ -30,7 +30,7 @@ export default async function HeaderComponent() {
                     <Image
                         className="h-16 w-16 bg-white text-black max-[480]:h-10 max-[480]:w-10"
                         src="/jeb.png"
-                        alt="Bloque marque JEB"
+                        alt="Bloc-marque JEB"
                         aria-hidden="true"
                         width={100}
                         height={100}

@@ -122,7 +122,7 @@ export default function AccountComponent() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Prénom :
+                    Prénom:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -132,7 +132,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Nom :
+                    Nom:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -142,7 +142,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Email :
+                    Email:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -152,7 +152,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Type de compte :
+                    Type de compte:
                   </p>
 
                   <Badge>
@@ -165,6 +165,7 @@ export default function AccountComponent() {
 
               <div className="mt-4">
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => setEditingProfile(true)}
@@ -230,6 +231,7 @@ export default function AccountComponent() {
 
               <div className="flex gap-2">
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={handleUpdateProfile}
@@ -239,6 +241,7 @@ export default function AccountComponent() {
                 </Button>
 
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => {
