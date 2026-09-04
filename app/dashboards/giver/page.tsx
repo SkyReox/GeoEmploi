@@ -71,16 +71,12 @@ export default function GiverDashboard() {
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const [userResponse, jobsResponse] = await Promise.all([
-          fetch("/api/me"),
-          fetch("/api/jobs"),
-        ]);
+        const jobsResponse = await fetch("/api/jobs");
 
-        if (!userResponse.ok || !jobsResponse.ok) {
+        if (!jobsResponse.ok) {
           throw new Error("Impossible de récupérer les données.");
         }
 
-        const user: User = await userResponse.json();
         const jobsTemp = await jobsResponse.json();
 
         const allJobs: Job[] = Array.isArray(jobsTemp)
