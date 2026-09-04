@@ -20,6 +20,7 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-rc.4",
+    "leaflet.fullscreen": "^5.3.3",
     "next": "16.3.3",
     "next-auth": "5.0.0-beta.32",
     "pg": "^8.23.0",
