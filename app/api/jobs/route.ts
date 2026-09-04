@@ -3,6 +3,22 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { CreateJobSchema } from "@/lib/validations/job.schema";
 
+async function geocodeAddress(address: string) {
+  try {
+    const res = await fetch(
+      `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(address)}&limit=1`
+    );
+    const data = await res.json();
+    const feature = data.features?.[0];
+    if (!feature) return null;
+    const [longitude, latitude] = feature.geometry.coordinates;
+    return { latitude, longitude };
+  } catch (err) {
+    console.error("Geocoding failed:", err);
+    return null;
+  }
+}
+
 export async function GET(request: NextRequest) {
   const session = await auth();
   const { searchParams } = new URL(request.url);
@@ -52,16 +68,19 @@ export async function POST(request: NextRequest) {
   if (!session || session.user.role !== "GIVER") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
-
+  
   const body = await request.json();
   const result = CreateJobSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 });
   }
 
+  const coords = await geocodeAddress(result.data.location);
   const job = await prisma.job.create({
     data: {
       ...result.data,
+      latitude: coords?.latitude ?? null,
+      longitude: coords?.longitude ?? null,
       giverId: session.user.id,
       status: "APPROVED",
     },

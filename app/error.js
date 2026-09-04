@@ -3,7 +3,7 @@
 export default function Error({ statusCode, message }) {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
-            <main className="flex flex-1 w-full flex-col items-center justify-start my-32 bg-main-2">
+            <main className="flex flex-1 w-full flex-col items-center justify-start my-8 bg-main-2">
                 <div className="w-[40%] text-center text-black">
                     <h1 className="text-[50px]">
                         Erreur {statusCode ? statusCode : 500}

@@ -4,13 +4,12 @@ export const metadata = {
     description: "Carte interactive des offres d'emploi",
 }
 
-
 export default function Home() {
     return (
         <div className="flex flex-col flex-1 bg-zinc-50 font-sans bg-main-2">
-            <main className="flex flex-1 w-full flex-col items-center justify-between py-32 px-16 bg-white bg-main-2 sm:items-start"> 
+            <main className="flex flex-1 w-full flex-col items-center justify-between py-8 px-16 bg-white bg-main-2 sm:items-start"> 
                 <Map />
             </main>
         </div>
     );
-}   
+}

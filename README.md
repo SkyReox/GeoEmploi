@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GeoEmploi
 
-## Getting Started
+Application Next.js de mise en relation autour de l'emploi. Elle utilise PostgreSQL via Prisma et Auth.js pour l'authentification.
 
-First, run the development server:
+## Prérequis
+
+- Node.js 22 (ou une version LTS compatible)
+- npm
+- Docker et Docker Compose
+
+## Installation et lancement local
+
+Installez les dépendances:
+
+```bash
+npm install
+```
+
+Créez le fichier `.env` à la racine du projet avec l'URL de la base locale:
+
+```env
+DATABASE_URL="postgresql://geo_emploi:geo_emploi_dev@localhost:5432/geo_emploi"
+```
+
+Générez ensuite le secret Auth.js:
+
+```bash
+npx auth secret
+```
+
+Cette commande affiche deux variables. Copiez leurs valeurs dans `.env` en renommant la variable `BETTER_AUTH_SECRET` en `AUTH_SECRET`:
+
+```env
+AUTH_SECRET="votre_secret_genere"
+```
+
+Ne versionnez jamais ce secret. Le fichier `.env` est déjà ignoré par Git.
+
+Démarrez PostgreSQL puis l'application, dans deux terminaux distincts:
+
+```bash
+docker-compose up
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Au premier lancement (et après une modification de `prisma/schema.prisma`), synchronisez le schéma et créez les données de démonstration:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx prisma db push
+npx prisma db seed
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+L'application est disponible sur [http://localhost:3000](http://localhost:3000). Le compte administrateur créé par le seed est `admin@geo-emploi.com` avec le mot de passe `changeme123` ; changez-le après la première connexion.
 
-## Learn More
+Pour arrêter la base de données, utilisez `docker-compose down`. Ajoutez `-v` uniquement si vous souhaitez aussi supprimer les données PostgreSQL locales.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts utiles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Commande | Rôle |
+| --- | --- |
+| `npm run dev` | Lance Next.js en développement. |
+| `npm run build` | Génère le build de production. |
+| `npm run start` | Lance le build de production. |
+| `npm run lint` | Vérifie le code avec ESLint. |
+| `npm run db:migrate` | Crée et applique une migration Prisma en développement. |
+| `npm run db:studio` | Ouvre Prisma Studio. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Build CI
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Le workflow GitHub Actions [`.github/workflows/build.yml`](.github/workflows/build.yml) installe les dépendances, initialise PostgreSQL, construit l'application et publie l'artefact `geoemploi-build`. Cet artefact est autonome: il contient le serveur Next.js et les dépendances de production nécessaires. Pour l'exécuter après téléchargement, définissez `DATABASE_URL` et un vrai `AUTH_SECRET`, puis lancez `node server.js` depuis le dossier de l'artefact.

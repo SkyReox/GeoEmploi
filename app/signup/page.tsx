@@ -42,6 +42,14 @@ export default function SignupPage() {
     setErrors("Les mots de passe ne correspondent pas.");
     return;
   }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(formData.email)) {
+    setErrors("Veuillez entrer une adresse e-mail valide.");
+    return;
+  }
+
   if (!formData.conditions) {
     setErrors("Vous devez accepter les conditions d'utilisation et la politique de confidentialité.");
     return;
@@ -85,12 +93,12 @@ export default function SignupPage() {
 };
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans bg-main-2">
-      <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-first-name">
-              Prénom
+    <div className="flex min-w-0 flex-1 flex-col items-center justify-center overflow-x-hidden bg-zinc-50 px-3 py-8 font-sans bg-main-2 sm:px-6 sm:py-12">
+      <form className="w-full max-w-lg mt-[1.25rem]" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <div className="w-full md:w-1/2">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="firstName">
+              Prénom<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -100,11 +108,12 @@ export default function SignupPage() {
               onChange={handleChange}
               placeholder="Jean-Eudes"
               maxLength={100}
+              aria-required="true"
             />
           </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-last-name">
-              Nom de famille
+          <div className="w-full md:w-1/2">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="lastName">
+              Nom de famille<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -114,13 +123,14 @@ export default function SignupPage() {
               onChange={handleChange}
               placeholder="Berlier"
               maxLength={100}
+              aria-required="true"
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-email">
-              Adresse e-mail
+        <div>
+          <div className="w-full">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="email">
+              Adresse e-mail<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -129,50 +139,59 @@ export default function SignupPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="jeaneudes.berlier@gouv.fr"
+              aria-required="true"
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
-              Mot de passe
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              placeholder="******************"
-            />
-            <p className="text-gray-700 text-xs italic">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+        <fieldset>
+          <label className="text-gray-900 font-bold mb-2">
+            Sécurité
+          </label>
+          <div>
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
+                Mot de passe<span className="text-red-500">*</span>
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                placeholder="******************"
+                aria-required="true"
+              />
+              <p className="text-gray-700 text-xs italic">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+            </div>
           </div>
+          <div>
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="passwordConfirm">
+                Confirmer le mot de passe<span className="text-red-500">*</span>
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="passwordConfirm"
+                type="password"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+                placeholder="******************"
+                aria-required="true"
+              />
+            </div>
+          </div>
+        </fieldset>
+        <div className="w-full">
+          <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="role">
+            Statut
+          </label>
+          <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
+            <option value="SEEKER">Chercheur</option>
+            <option value="GIVER">Recruteur</option>
+          </select>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password-confirm">
-              Confirmer le mot de passe
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="passwordConfirm"
-              type="password"
-              value={formData.passwordConfirm}
-              onChange={handleChange}
-              placeholder="******************"
-            />
-          </div>
-        </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="grid-password">
-              Statut
-            </label>
-            <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
-              <option value="SEEKER">Chercheur</option>
-              <option value="GIVER">Recruteur</option>
-            </select>
-          </div>
+        <div className="mb-2">
+          <p className="text-gray-700 text-sm italic"><span className="text-red-500">*</span> Champ obligatoire</p>
         </div>
       <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
@@ -182,27 +201,28 @@ export default function SignupPage() {
             </label>
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+        <div>
+          <div className="w-full">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none focus:shadow-outline sm:w-auto"
               type="submit"
+              aria-label="S'inscrire"
             >
               S'inscrire
             </button>
           </div>
         </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+        <div>
+          <div className="w-full">
             <p className="text-gray-700 text-xs italic">Vous avez déjà un compte ? <a href="/login" className="text-blue-700 hover:text-blue-900">Connectez-vous ici</a>.</p>
           </div>
         </div>
+        {errors && (
+          <div className="break-words rounded-md border border-red-400 bg-red-100 p-3 text-red-700">
+            {errors}
+          </div>
+        )}
       </form>
-      {errors && (
-        <div className="mb-4 rounded-md bg-red-100 border border-red-400 p-3 text-red-700">
-          {errors}
-        </div>
-      )}
     </div>
   );
 }
