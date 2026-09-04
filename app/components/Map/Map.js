@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 're
 import React, { useState } from 'react';
 import { LAYERS } from './LayerSwitcher';
 import LayerSwitcher from './LayerSwitcher';
+import FullscreenHandler from './FullscreenHandler';
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
@@ -86,6 +87,7 @@ function Map() {
         attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'
         url={LAYERS[activeLayer].url}
       />
+     {/* <FullscreenHandler /> */}
       <LayerSwitcher activeLayer={activeLayer} setActiveLayer={setActiveLayer} />
       <LocationMarker />
       <LocateButton />

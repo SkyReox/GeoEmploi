@@ -60,3 +60,7 @@ h5 {
 h6 {
   font-family: "Marianne", arial, sans-serif;
 }
+
+.redIcon {
+  filter: hue-rotate(200deg);
+}

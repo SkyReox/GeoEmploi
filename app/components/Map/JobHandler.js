@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 
 export default function ShowAllJobsButton() { const [jobs, setJobs] = useState([]);
 
@@ -49,7 +50,7 @@ export default function ShowAllJobsButton() { const [jobs, setJobs] = useState([
     </button>
 
     {jobs.map((job) => (
-        <Marker key={job.id} position={[job.latitude, job.longitude]} icon={L.icon({ iconUrl: 'pointer.png', iconSize: [15, 20] })}>
+        <Marker key={job.id} position={[job.latitude, job.longitude]} icon={L.icon({iconUrl: 'pointer.png', iconSize: [20, 20], className: 'redIcon'})}>
           <Popup>
             <strong>{job.title}</strong>
             <br />
