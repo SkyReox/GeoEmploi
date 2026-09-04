@@ -9,6 +9,8 @@ import {
 } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
+import AccountComponent from "@/app/components/AccountComponent";
+import { Session } from "inspector/promises";
 
 type Application = {
   id: string;
@@ -44,25 +46,18 @@ type Job = {
 };
 
 export default function GiverDashboard() {
-  const [userData, setUserData] = useState<User | null>(null);
   const [jobsData, setJobsData] = useState<Job[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [editingProfile, setEditingProfile] = useState(false);
   const [addingJob, setAddingJob] = useState(false);
-
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
 
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobLocation, setJobLocation] = useState("");
   const [jobSalary, setJobSalary] = useState("");
 
-  const [savingProfile, setSavingProfile] = useState(false);
   const [savingJob, setSavingJob] = useState(false);
   const [openJobId, setOpenJobId] = useState<string | null>(null);
 
@@ -92,20 +87,8 @@ export default function GiverDashboard() {
           ? jobsTemp
           : jobsTemp.jobs || [];
 
-        /*
-         * /api/jobs renvoie tous les jobs.
-         * On garde uniquement ceux du giver connecté.
-         */
-        const giverJobs = allJobs.filter(
-          (job) => job.giverId === user.id
-        );
+        setJobsData(allJobs);
 
-        setUserData(user);
-        setJobsData(giverJobs);
-
-        setFirstname(user.firstname);
-        setLastname(user.lastname);
-        setEmail(user.email);
       } catch (error) {
         console.error(error);
         setError("Impossible de charger le dashboard.");
@@ -221,48 +204,6 @@ export default function GiverDashboard() {
         ...prev,
         [jobId]: false,
       }));
-    }
-  };
-
-  /*
-   * Modification du profil
-   */
-  const handleUpdateProfile = async () => {
-    setError("");
-    setSavingProfile(true);
-
-    try {
-      const response = await fetch("/api/me", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstname,
-          lastname,
-          email,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          "Erreur lors de la modification du profil."
-        );
-      }
-
-      const updatedUser: User = await response.json();
-
-      setUserData(updatedUser);
-      setFirstname(updatedUser.firstname);
-      setLastname(updatedUser.lastname);
-      setEmail(updatedUser.email);
-
-      setEditingProfile(false);
-    } catch (error) {
-      console.error(error);
-      setError("Impossible de modifier le profil.");
-    } finally {
-      setSavingProfile(false);
     }
   };
 
@@ -418,7 +359,7 @@ export default function GiverDashboard() {
   /*
    * Erreur bloquante
    */
-  if (error && !userData) {
+  if (error) {
     return <div className="p-8 text-red-500">{error}</div>;
   }
 
@@ -449,142 +390,7 @@ export default function GiverDashboard() {
         </CardHeader>
 
         <CardContent>
-          {!editingProfile ? (
-            <>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Prénom :
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.firstname}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Nom :
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.lastname}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Email :
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.email}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Type de compte :
-                  </p>
-
-                  <Badge>
-                    {userData?.role === "GIVER"
-                      ? "Recruteur"
-                      : "Demandeur d'emploi"}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setEditingProfile(true)}
-                >
-                  Modifier mon profil
-                </Button>
-              </div>
-            </>
-          ) : (
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="firstname"
-                  className="text-sm font-medium font-semibold text-ink"
-                >
-                  Prénom :
-                </label>
-
-                <input
-                  id="firstname"
-                  type="text"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-2 text-sm text-neutral"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="lastname"
-                  className="text-sm font-medium font-semibold text-ink"
-                >
-                  Nom :
-                </label>
-
-                <input
-                  id="lastname"
-                  type="text"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-2 text-sm text-neutral"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium font-semibold text-ink"
-                >
-                  Email :
-                </label>
-
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-2 text-sm text-neutral"
-                />
-              </div>
-
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleUpdateProfile}
-                  disabled={savingProfile}
-                >
-                  {savingProfile ? "Enregistrement..." : "Enregistrer"}
-                </Button>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setEditingProfile(false);
-                    setFirstname(userData?.firstname || "");
-                    setLastname(userData?.lastname || "");
-                    setEmail(userData?.email || "");
-                    setError("");
-                  }}
-                  disabled={savingProfile}
-                >
-                  Annuler
-                </Button>
-              </div>
-            </div>
-          )}
+          <AccountComponent></AccountComponent>
 
           {/* Offres publiées */}
           <div className="mt-6">

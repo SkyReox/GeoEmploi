@@ -10,6 +10,7 @@ import {
 } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
+import AccountComponent from "@/app/components/AccountComponent";
 
 enum Availability {
   FULL_TIME = "FULL_TIME",
@@ -280,7 +281,8 @@ export default function Home() {
         </CardHeader>
 
         <CardContent>
-          <p className="text-sm font-medium font-semibold text-ink">
+          <AccountComponent></AccountComponent>
+          <p className="text-sm font-medium font-semibold text-ink mt-5">
             Biographie :
           </p>
 
@@ -648,7 +650,7 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="mt-5">
         <CardHeader>
           <CardTitle>Mes candidatures récentes</CardTitle>
         </CardHeader>
