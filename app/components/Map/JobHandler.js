@@ -1,10 +1,7 @@
-import { useMap } from 'react-leaflet';
 import { useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 
-export default function ShowAllJobsButton() {
-  const map = useMap();
-  const  [jobs, setJobs] = useState([]);
+export default function ShowAllJobsButton() { const [jobs, setJobs] = useState([]);
 
   async function handleClick() {
     try {
