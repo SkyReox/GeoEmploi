@@ -6,7 +6,7 @@ export default auth((req) => {
   const role = req.auth?.user?.role;
   const isLoggedIn = !!req.auth;
 
-  const protectedPrefixes = ["/dashboard", "/api/seeker", "/api/applications"];
+  const protectedPrefixes = ["/dashboards", "/api/seeker", "/api/applications"];
   const isProtected = protectedPrefixes.some((p) => pathname.startsWith(p));
 
   if (isProtected && !isLoggedIn) {
@@ -16,7 +16,7 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (pathname.startsWith("/dashboard/admin") || pathname.startsWith("/api/admin")) {
+  if (pathname.startsWith("/dashboards/admin") || pathname.startsWith("/api/admin")) {
     if (role !== "ADMIN") {
       return pathname.startsWith("/api")
         ? NextResponse.json({ error: "Accès refusé" }, { status: 403 })
@@ -24,15 +24,16 @@ export default auth((req) => {
     }
   }
 
-  if (pathname.startsWith("/dashboard/giver") && role !== "GIVER") {
+  if (pathname.startsWith("/dashboards/giver") && role !== "GIVER") {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (pathname.startsWith("/dashboard/seeker") && role !== "SEEKER") {
+  if (pathname.startsWith("/dashboards/seeker") && role !== "SEEKER") {
     return NextResponse.redirect(new URL("/", req.url));
   }
+  return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/seeker/:path*", "/api/admin/:path*", "/api/applications/:path*"],
+  matcher: ["/dashboards/:path*", "/api/seeker/:path*", "/api/admin/:path*", "/api/applications/:path*"],
 };
