@@ -28,6 +28,7 @@
     "react-leaflet": "^5.0.0",
     "swagger-editor": "^5.0.0-alpha.124",
     "swr": "^2.5.1",
+    "tailwind-merge": "^3.6.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {
