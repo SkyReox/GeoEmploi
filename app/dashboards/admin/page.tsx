@@ -281,7 +281,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <main className="mx-auto bg-white flex w-full max-w-6xl flex-1 flex-col px-4 py-8 text-black sm:px-6">
+    <div className="mx-auto bg-white flex w-full flex-1 flex-col px-4 py-8 text-black sm:px-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-ink">Administration</h1>
@@ -372,6 +372,6 @@ export default function AdminDashboard() {
           <CardContent>{loading ? <p className="text-sm text-neutral">Chargement des demandeurs d’emploi…</p> : renderUsers(seekers, "Aucun demandeur d’emploi enregistré.", "candidature(s)")}</CardContent>
         </Card>
       </section>
-    </main>
+    </div>
   );
 }
