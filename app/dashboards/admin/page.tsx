@@ -84,6 +84,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const [updatingJobId, setUpdatingJobId] = useState<string | null>(null);
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
+  const [openJobId, setOpenJobId] = useState<string | null>(null);
 
   const loadDashboard = useCallback(async () => {
     setLoading(true);
@@ -287,7 +288,7 @@ export default function AdminDashboard() {
           <h1 className="text-2xl font-semibold text-ink">Administration</h1>
           <p className="mt-1 text-sm text-neutral">Gérez les offres et les comptes de la plateforme.</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => void loadDashboard()}>
+        <Button className="hover-bg-main-1 hover:text-white" variant="outline" size="sm" onClick={() => void loadDashboard()}>
           Actualiser
         </Button>
       </div>
@@ -313,6 +314,7 @@ export default function AdminDashboard() {
                 {jobs.map((job) => {
                   const status = job.status ?? "PENDING";
                   const isUpdating = updatingJobId === job.id;
+                  const isDetailOpen = openJobId === job.id;
                   return (
                     <article key={job.id} className="p-4">
                       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -320,9 +322,23 @@ export default function AdminDashboard() {
                           <div className="flex flex-wrap items-center gap-2"><h3 className="font-semibold text-ink">{job.title}</h3><Badge variant={jobStatusVariant[status]}>{jobStatusLabel[status]}</Badge></div>
                           <p className="mt-1 text-sm text-neutral">{job.location} · Publiée le {formatDate(job.createdAt)}</p>
                           <p className="mt-1 text-sm text-neutral">Par {getFullName(job.giver)} ({job.giver.email}) · {job._count.applications} candidature{job._count.applications > 1 ? "s" : ""}</p>
-                          <p className="mt-3 text-sm text-ink">{job.description}</p>
+                          {isDetailOpen && (
+                            <div id={`job-details-${job.id}`} className="mt-3 rounded-lg border border-dashed border-border bg-neutral-bg/50 p-3 text-sm text-ink">
+                              <p className="font-medium">Description</p>
+                              <p className="mt-1 whitespace-pre-wrap">{job.description}</p>
+                            </div>
+                          )}
                         </div>
                         <div className="flex shrink-0 flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setOpenJobId(isDetailOpen ? null : job.id)}
+                            aria-expanded={isDetailOpen}
+                            aria-controls={`job-details-${job.id}`}
+                            className="hover-bg-main-1 shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium text-ink transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-50"
+                          >
+                            {isDetailOpen ? "Masquer le détail" : "Voir le détail"}
+                          </button>
                           {status === "PENDING" && (
                             <button
                               type="button"
