@@ -20,7 +20,7 @@ export function withAuth(allowedRoles: Role[], handler: Handler) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
 
-    if (!allowedRoles.includes(session.user.role)) {
+    if (!allowedRoles.includes(session.user.role) && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
     }
 
