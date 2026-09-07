@@ -8,10 +8,12 @@ export const GET = withAuth(["ADMIN"], async (request) => {
   const limit = Math.min(50, Math.max(1, Number(searchParams.get("limit") ?? 20)));
   const status = searchParams.get("status") ?? undefined;
 
-  const where = status
-    ? { status: status as "PENDING" | "APPROVED" | "REJECTED" | "CLOSED" }
-    : {};
+  const where = {
+    archived: false,
+    ...(status &&{ status: status as "PENDING" | "APPROVED" | "REJECTED" | "CLOSED" }),
 
+  }
+  ;
   const [jobs, total] = await Promise.all([
     prisma.job.findMany({
       where,
