@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 're
 import React, { useState } from 'react';
 import { LAYERS } from './LayerSwitcher';
 import LayerSwitcher from './LayerSwitcher';
-import FullscreenHandler from './FullscreenHandler';
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
@@ -81,13 +80,12 @@ function LocateButton() {
 function Map() {
   const [activeLayer, setActiveLayer] = useState('ortho');
   return (
-    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true}>
+    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true} maxZoom={40}>
       <TileLayer
         key={activeLayer}
         attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'
         url={LAYERS[activeLayer].url}
       />
-     {/* <FullscreenHandler /> */}
       <LayerSwitcher activeLayer={activeLayer} setActiveLayer={setActiveLayer} />
       <LocationMarker />
       <LocateButton />
