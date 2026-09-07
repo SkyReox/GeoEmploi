@@ -330,15 +330,15 @@ export default function AdminDashboard() {
                           )}
                         </div>
                         <div className="flex shrink-0 flex-wrap gap-2">
-                          <button
-                            type="button"
+                          <Button
+                            variant="outline"
                             onClick={() => setOpenJobId(isDetailOpen ? null : job.id)}
                             aria-expanded={isDetailOpen}
                             aria-controls={`job-details-${job.id}`}
-                            className="hover-bg-main-1 shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium text-ink transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-50"
+                            className="shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium text-ink transition-colors disabled:pointer-events-none disabled:opacity-50"
                           >
                             {isDetailOpen ? "Masquer le détail" : "Voir le détail"}
-                          </button>
+                          </Button>
                           {status === "PENDING" && (
                             <button
                               type="button"
