@@ -2,10 +2,27 @@ import { useState, useMemo } from 'react';
 import { Popup, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Button } from '../ui/button';
 
 export default function ShowAllJobsButton() {
   const [jobs, setJobs] = useState([]);
   const [applyStatus, setApplyStatus] = useState({});
+  const [applyMessage, setApplyMessage] = useState({});
+
+  async function checkAuth() {
+    try {
+      const res = await fetch('/api/me');
+      if (!res.ok) {
+        alert("Vous devez être connecté pour postuler à un emploi.");
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      alert("Vous devez être connecté pour postuler à un emploi.");
+      return false;
+    }
+  }
 
   async function handleClick() {
     try {
@@ -31,19 +48,31 @@ export default function ShowAllJobsButton() {
   }
 
   async function handleApply(jobId) {
+    const isAuth = await checkAuth();
+    if (!isAuth) {
+      return;
+    }
     setApplyStatus((prev) => ({ ...prev, [jobId]: 'loading' }));
     try {
       const res = await fetch(`/api/jobs/${jobId}/apply`, {
         method: 'POST',
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.error || 'Erreur lors de la candidature.');
+      if (res.status === 409) {
+        setApplyMessage((prev) => ({ ...prev, [jobId]: 'already-applied' }));
+        setApplyStatus((prev) => ({ ...prev, [jobId]: data.error }));
+        return (
+          <Popup>
+            'Vous avez déjà postulé à cet emploi.'
+          </Popup>
+        );
       }
       setApplyStatus((prev) => ({ ...prev, [jobId]: 'success' }));
+      setApplyMessage((prev) => ({ ...prev, [jobId]: data.message || 'Candidature envoyée avec succès.' }));
     } catch (err) {
       console.error(err);
       setApplyStatus((prev) => ({ ...prev, [jobId]: 'error' }));
+      setApplyMessage((prev) => ({ ...prev, [jobId]: err.message}));
     }
   }
 
@@ -65,17 +94,23 @@ export default function ShowAllJobsButton() {
 
   function ApplyButton({ job }) {
     const status = applyStatus[job.id];
+    const message = applyMessage[job.id];
+
     if (status === 'success') {
       return <span style={{ color: 'green' }}>Candidature envoyée</span>;
     }
+    if (message === 'already-applied') {
+      return <span style={{ color: 'orange' }}>Vous avez déjà postulé</span>;
+    }
     return (
-      <button
+      <Button
         onClick={() => handleApply(job.id)}
         disabled={status === 'loading'}
         className="apply-button"
+        variant="outline"
       >
         {status === 'loading' ? 'Envoi...' : 'Postuler'}
-      </button>
+      </Button>
     );
   }
 
