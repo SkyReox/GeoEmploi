@@ -108,7 +108,7 @@ export default function GiverDashboard() {
       const response = await fetch(
         `/api/applications/${applicationId}`,
         {
-          method: "PATCH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
