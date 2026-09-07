@@ -10,7 +10,6 @@ import {
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import AccountComponent from "@/app/components/AccountComponent";
-import { Session } from "inspector/promises";
 
 type Application = {
   id: string;
@@ -243,7 +242,7 @@ export default function GiverDashboard() {
     salary,
   };
 
-  console.log("JSON envoyé à /api/jobs :", body);
+  console.log("JSON envoyé à /api/jobs:", body);
 
   setSavingJob(true);
 
@@ -258,7 +257,7 @@ export default function GiverDashboard() {
 
     const data = await response.json().catch(() => null);
 
-    console.log("Réponse /api/jobs :", response.status, data);
+    console.log("Réponse /api/jobs:", response.status, data);
 
     if (!response.ok) {
       throw new Error(
@@ -279,7 +278,7 @@ export default function GiverDashboard() {
 
     setAddingJob(false);
   } catch (error) {
-    console.error("Erreur création offre :", error);
+    console.error("Erreur création offre:", error);
 
     if (error instanceof Error) {
       setError(error.message);
@@ -393,11 +392,12 @@ export default function GiverDashboard() {
           <div className="mt-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm font-medium font-semibold text-ink">
-                Mes offres publiées :
+                Mes offres publiées:
               </p>
 
               {!addingJob && (
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => {
@@ -419,7 +419,7 @@ export default function GiverDashboard() {
                       htmlFor="job-title"
                       className="text-sm font-medium font-semibold text-ink"
                     >
-                      Titre :
+                      Titre:
                     </label>
 
                     <input
@@ -427,7 +427,7 @@ export default function GiverDashboard() {
                       type="text"
                       value={jobTitle}
                       onChange={(e) => setJobTitle(e.target.value)}
-                      placeholder="Ex : Développeur web"
+                      placeholder="Ex: Développeur web"
                       className="mt-1 w-full rounded-lg border border-dashed border-border bg-white px-4 py-2 text-sm text-neutral"
                     />
                   </div>
@@ -437,7 +437,7 @@ export default function GiverDashboard() {
                       htmlFor="job-description"
                       className="text-sm font-medium font-semibold text-ink"
                     >
-                      Description :
+                      Description:
                     </label>
 
                     <textarea
@@ -457,7 +457,7 @@ export default function GiverDashboard() {
                       htmlFor="job-location"
                       className="text-sm font-medium font-semibold text-ink"
                     >
-                      Lieu :
+                      Lieu:
                     </label>
 
                     <input
@@ -465,7 +465,7 @@ export default function GiverDashboard() {
                       type="text"
                       value={jobLocation}
                       onChange={(e) => setJobLocation(e.target.value)}
-                      placeholder="Ex : Paris"
+                      placeholder="Ex: Paris"
                       className="mt-1 w-full rounded-lg border border-dashed border-border bg-white px-4 py-2 text-sm text-neutral"
                     />
                   </div>
@@ -475,7 +475,7 @@ export default function GiverDashboard() {
                       htmlFor="job-salary"
                       className="text-sm font-medium font-semibold text-ink"
                     >
-                      Salaire :
+                      Salaire:
                     </label>
 
                     <input
@@ -485,13 +485,14 @@ export default function GiverDashboard() {
                     step="1"
                     value={jobSalary}
                     onChange={(e) => setJobSalary(e.target.value)}
-                    placeholder="Ex : 35000"
+                    placeholder="Ex: 35000"
                     className="w-full rounded-md border border-border px-3 py-2 text-sm"
                   />
                   </div>
 
                   <div className="flex gap-2">
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleAddJob}
@@ -503,6 +504,7 @@ export default function GiverDashboard() {
                     </Button>
 
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleCancelJob}
@@ -540,7 +542,7 @@ export default function GiverDashboard() {
 
                           {job.location && (
                             <span className="mt-1 text-sm text-neutral">
-                              Lieu : {job.location}
+                              Lieu: {job.location}
                             </span>
                           )}
                         </div>
@@ -548,7 +550,7 @@ export default function GiverDashboard() {
                         <button
                           type="button"
                           onClick={() => handleDeleteJob(job.id)}
-                          className="shrink-0 rounded-lg px-2 py-1 text-xs text-neutral transition-colors hover:bg-red-100 hover:text-red-600"
+                          className="shrink-0 rounded-lg px-2 py-1 text-xs text-neutral font-semibold transition-colors cursor-pointer border-2 border-blue-700 hover:bg-red-200 hover:text-red-700 hover:border-red-100"
                           aria-label={`Supprimer ${job.title}`}
                         >
                           Supprimer
@@ -579,7 +581,7 @@ export default function GiverDashboard() {
                               className="mt-3 rounded-lg border border-white/20 bg-white/10 p-3"
                             >
                               <span className="font-medium font-semibold">
-                                Description :
+                                Description:
                               </span>
 
                               <p className="mt-1 whitespace-pre-wrap text-white">
@@ -593,7 +595,7 @@ export default function GiverDashboard() {
                       {job.salary !== null && job.salary !== undefined && (
                         <div className="mt-2">
                           <span className="font-medium font-semibold">
-                            Salaire :
+                            Salaire:
                           </span>
 
                           <span className="ml-2 text-neutral">
@@ -605,7 +607,7 @@ export default function GiverDashboard() {
                       {job.status && (
                         <div className="mt-2">
                           <span className="font-medium font-semibold">
-                            Statut :
+                            Statut:
                           </span>
 
                           <span className="ml-2">
@@ -617,7 +619,7 @@ export default function GiverDashboard() {
                       {job.createdAt && (
                         <div className="mt-2">
                           <span className="font-medium font-semibold">
-                            Date de publication :
+                            Date de publication:
                           </span>
 
                           <span className="ml-2 text-neutral">
@@ -631,7 +633,7 @@ export default function GiverDashboard() {
                         <button
                           type="button"
                           onClick={() => handleToggleApplications(job.id)}
-                          className="w-full rounded-lg border border-white/20 px-3 py-2 text-left text-sm font-semibold transition-colors hover:bg-white/10"
+                          className="w-full rounded-lg border border-white/20 px-3 py-2 text-left text-sm font-semibold transition-colors cursor-pointer hover:bg-white/10"
                         >
                           {openJobId === job.id
                             ? "Masquer les candidatures"

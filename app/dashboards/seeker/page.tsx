@@ -266,7 +266,7 @@ export default function Home() {
   return (
     <div className="mx-auto mt-[1,5rem] flex w-full flex-1 flex-col bg-white px-4 py-8 text-black">
       <div>
-        <h1 className="text-2xl font-semibold text-ink">
+        <h1 className="text-2xl font-semibold">
           Bonjour
         </h1>
 
@@ -282,8 +282,8 @@ export default function Home() {
 
         <CardContent>
           <AccountComponent></AccountComponent>
-          <p className="text-sm font-medium font-semibold text-ink mt-5">
-            Biographie :
+          <p className="text-sm font-medium font-semibold mt-5">
+            Biographie:
           </p>
 
           <textarea
@@ -301,6 +301,7 @@ export default function Home() {
           />
 
           <Button
+            className="cursor-pointer hover:bg-gray-200"
             variant="outline"
             size="sm"
             onClick={handleBioChange}
@@ -309,8 +310,8 @@ export default function Home() {
           </Button>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <p className="text-sm font-medium font-semibold text-ink">
-              Expériences :
+            <p className="text-sm font-medium font-semibold">
+              Expériences:
             </p>
 
             {experiencesData.length === 0 ? (
@@ -344,7 +345,7 @@ export default function Home() {
                       </div>
 
                       <span className="ml-2 mt-2 font-medium font-semibold">
-                        Dates :
+                        Dates:
                       </span>
 
                       <span className="ml-2 text-neutral">
@@ -353,7 +354,7 @@ export default function Home() {
                       </span>
 
                       <span className="ml-2 mt-2 font-medium font-semibold">
-                        Description :
+                        Description:
                       </span>
 
                       <span className="ml-2 text-neutral">
@@ -367,6 +368,7 @@ export default function Home() {
 
             {!showExperienceForm && (
               <Button
+                className="cursor-pointer hover:bg-gray-200"
                 variant="outline"
                 size="sm"
                 onClick={() => setShowExperienceForm(true)}
@@ -379,7 +381,7 @@ export default function Home() {
               <div className="w-full rounded-lg border border-dashed border-border bg-neutral-bg/50 p-4">
                 <div className="flex flex-col gap-3">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-ink">
+                    <label className="mb-1 block text-sm font-medium">
                       Titre de l'expérience
                     </label>
 
@@ -389,13 +391,13 @@ export default function Home() {
                       onChange={(e) =>
                         setExperienceTitle(e.target.value)
                       }
-                      placeholder="Ex : Développeur web"
-                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                      placeholder="Ex: Développeur web"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-ink">
+                    <label className="mb-1 block text-sm font-medium">
                       Entreprise
                     </label>
 
@@ -405,13 +407,13 @@ export default function Home() {
                       onChange={(e) =>
                         setExperienceCompany(e.target.value)
                       }
-                      placeholder="Ex : Entreprise XYZ"
-                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                      placeholder="Ex: Entreprise XYZ"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-ink">
+                    <label className="mb-1 block text-sm font-medium">
                       Description
                     </label>
 
@@ -422,13 +424,13 @@ export default function Home() {
                       }
                       placeholder="Décrivez votre expérience"
                       rows={4}
-                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-ink">
+                      <label className="mb-1 block text-sm font-medium">
                         Date de début
                       </label>
 
@@ -438,12 +440,12 @@ export default function Home() {
                         onChange={(e) =>
                           setExperienceStartDate(e.target.value)
                         }
-                        className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                        className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm cursor-pointer hover:bg-gray-200"
                       />
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-ink">
+                      <label className="mb-1 block text-sm font-medium">
                         Date de fin
                       </label>
 
@@ -453,13 +455,14 @@ export default function Home() {
                         onChange={(e) =>
                           setExperienceEndDate(e.target.value)
                         }
-                        className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                        className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm cursor-pointer hover:bg-gray-200"
                       />
                     </div>
                   </div>
 
                   <div className="flex gap-2">
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={() => {
@@ -475,6 +478,7 @@ export default function Home() {
                     </Button>
 
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleAddExperience}
@@ -495,8 +499,8 @@ export default function Home() {
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <p className="text-sm font-medium font-semibold text-ink">
-              Compétences :
+            <p className="text-sm font-medium font-semibold">
+              Compétences:
             </p>
 
             {skillsData.length === 0 ? (
@@ -527,6 +531,7 @@ export default function Home() {
 
             {!showSkillForm && (
               <Button
+                className="cursor-pointer hover:bg-gray-200"
                 variant="outline"
                 size="sm"
                 onClick={() => setShowSkillForm(true)}
@@ -538,7 +543,7 @@ export default function Home() {
             {showSkillForm && (
               <div className="flex w-full items-end gap-2 rounded-lg border border-dashed border-border bg-neutral-bg/50 p-4">
                 <div className="flex-1">
-                  <label className="mb-1 block text-sm font-medium text-ink">
+                  <label className="mb-1 block text-sm font-medium">
                     Nom de la compétence
                   </label>
 
@@ -546,8 +551,8 @@ export default function Home() {
                     type="text"
                     value={skillName}
                     onChange={(e) => setSkillName(e.target.value)}
-                    placeholder="Ex : React, TypeScript, Photoshop..."
-                    className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+                    placeholder="Ex: React, TypeScript, Photoshop..."
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
@@ -558,6 +563,7 @@ export default function Home() {
                 </div>
 
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => {
@@ -569,6 +575,7 @@ export default function Home() {
                 </Button>
 
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={handleAddSkill}
@@ -581,8 +588,8 @@ export default function Home() {
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <p className="text-sm font-medium font-semibold text-ink">
-              Disponibilité :
+            <p className="text-sm font-medium font-semibold">
+              Disponibilité:
             </p>
 
             <select
@@ -596,7 +603,7 @@ export default function Home() {
                       : (e.target.value as Availability),
                 })
               }
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+              className="rounded-lg border border-border bg-white px-4 py-2 text-sm cursor-pointer"
             >
               <option value="">Non renseignée</option>
               <option value={Availability.FULL_TIME}>
@@ -614,6 +621,7 @@ export default function Home() {
             </select>
 
             <Button
+              className="cursor-pointer hover:bg-gray-200"
               variant="outline"
               size="sm"
               onClick={handleBioChange}
@@ -623,8 +631,8 @@ export default function Home() {
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <p className="text-sm font-medium font-semibold text-ink">
-              Disponible à partir du :
+            <p className="text-sm font-medium font-semibold">
+              Disponible à partir du:
             </p>
 
             <input
@@ -636,10 +644,11 @@ export default function Home() {
                   availableFrom: e.target.value || null,
                 })
               }
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-ink"
+              className="rounded-lg border border-border bg-white px-4 py-2 text-sm cursor-pointer hover:bg-gray-200"
             />
 
             <Button
+              className="cursor-pointer hover:bg-gray-200"
               variant="outline"
               size="sm"
               onClick={handleBioChange}
