@@ -36,6 +36,10 @@ body {
 .bg-main-2 {
   background-color: var(--main-color-2);
 }
+
+.redIcon {
+  filter: hue-rotate(200deg);
+}
 /* 
 h1 {
   font-family: "Marianne", arial, sans-serif;
@@ -59,4 +63,4 @@ h5 {
 
 h6 {
   font-family: "Marianne", arial, sans-serif;
-} */
+}
