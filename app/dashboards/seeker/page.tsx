@@ -730,7 +730,7 @@ export default function Home() {
             ) : !applicationsData ||
               applicationsData.length === 0 ? (
               <p className="text-sm text-neutral">
-                Aucune candidature pour cette offre.
+                Aucune candidature en cours.
               </p>
             ) : (
               <div className="space-y-3">
