@@ -45,6 +45,7 @@ export async function GET(request: NextRequest) {
       { description: { contains: search, mode: "insensitive" } },
     ];
   }
+  where.archived = false;
 
   const [jobs, total] = await Promise.all([
     prisma.job.findMany({

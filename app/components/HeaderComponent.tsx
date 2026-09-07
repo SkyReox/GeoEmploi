@@ -26,16 +26,17 @@ export default async function HeaderComponent() {
     return (<header className="sticky top-0 z-10000 flex w-full min-w-0 flex-col bg-main-1 p-2 max-[480]:static max-[480]:p-1">
         <nav className="flex min-w-0 flex-col items-center gap-2 max-[480]:flex-row max-[480]:items-start max-[480]:gap-1 sm:flex-row sm:justify-between">
             <div className="flex items-center justify-start">
-                <a href="/">
-                    <Image
-                        className="h-16 w-16 bg-white text-black max-[480]:h-10 max-[480]:w-10"
-                        src="/jeb.png"
-                        alt="Bloc-marque JEB"
+                <a href="/" className="font-bold text-xl text-white">
+                    {/* <Image
+                        className="h-16 w-16 text-white max-[480]:h-10 max-[480]:w-10"
+                        src="/goat.png"
+                        alt="Logo de l'entreprise JEB"
                         aria-hidden="true"
                         width={100}
                         height={100}
                         priority
-                    />
+                    /> */}
+                    GéoEmploi
                 </a>
             </div>
             <div className="flex min-w-0 flex-wrap justify-center gap-2 max-[480]:flex-1 max-[480]:justify-end max-[480]:gap-1 sm:justify-end">

@@ -59,6 +59,7 @@ export default function GiverDashboard() {
 
   const [savingJob, setSavingJob] = useState(false);
   const [openJobId, setOpenJobId] = useState<string | null>(null);
+  const [openDescriptionJobId, setOpenDescriptionJobId] = useState<string | null>(null);
 
   const [applicationsByJob, setApplicationsByJob] = useState<Record<string, Application[]>>({});
   const [loadingApplications, setLoadingApplications] = useState<Record<string, boolean>>({});
@@ -491,6 +492,7 @@ export default function GiverDashboard() {
 
                   <div className="flex gap-2">
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleAddJob}
@@ -502,6 +504,7 @@ export default function GiverDashboard() {
                     </Button>
 
                     <Button
+                      className="cursor-pointer hover:bg-gray-200"
                       variant="outline"
                       size="sm"
                       onClick={handleCancelJob}
@@ -522,11 +525,14 @@ export default function GiverDashboard() {
                 </p>
               ) : (
                 <div className="flex w-full flex-col gap-3 rounded-lg border border-dashed border-border px-4 py-6">
-                  {jobsData.map((job) => (
-                    <div
-                      key={job.id}
-                      className="flex flex-col mt-2 rounded-lg bg-main-1 px-4 py-4 text-sm text-white"
-                    >
+                  {jobsData.map((job) => {
+                    const isDescriptionOpen = openDescriptionJobId === job.id;
+
+                    return (
+                      <div
+                        key={job.id}
+                        className="flex flex-col mt-2 rounded-lg bg-main-1 px-4 py-4 text-sm text-white"
+                      >
                       {/* Informations de l'offre */}
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex flex-col">
@@ -553,13 +559,36 @@ export default function GiverDashboard() {
 
                       {job.description && (
                         <div className="mt-3">
-                          <span className="font-medium font-semibold">
-                            Description:
-                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setOpenDescriptionJobId(
+                                isDescriptionOpen ? null : job.id
+                              )
+                            }
+                            aria-expanded={isDescriptionOpen}
+                            aria-controls={`job-description-${job.id}`}
+                            className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold transition-colors hover:bg-white/10"
+                          >
+                            {isDescriptionOpen
+                              ? "Masquer le détail"
+                              : "Voir le détail"}
+                          </button>
 
-                          <p className="mt-1 text-neutral">
-                            {job.description}
-                          </p>
+                          {isDescriptionOpen && (
+                            <div
+                              id={`job-description-${job.id}`}
+                              className="mt-3 rounded-lg border border-white/20 bg-white/10 p-3"
+                            >
+                              <span className="font-medium font-semibold">
+                                Description:
+                              </span>
+
+                              <p className="mt-1 whitespace-pre-wrap text-white">
+                                {job.description}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       )}
 
@@ -733,8 +762,9 @@ export default function GiverDashboard() {
                           </div>
                         )}
                       </div>
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>

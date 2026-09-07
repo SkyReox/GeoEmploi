@@ -80,7 +80,7 @@ function LocateButton() {
 function Map() {
   const [activeLayer, setActiveLayer] = useState('ortho');
   return (
-    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true}>
+    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true} maxZoom={40}>
       <TileLayer
         key={activeLayer}
         attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'

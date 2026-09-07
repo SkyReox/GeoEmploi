@@ -193,11 +193,11 @@ export default function SignupPage() {
         <div className="mb-2">
           <p className="text-gray-700 text-sm italic"><span className="text-red-500">*</span> Champ obligatoire</p>
         </div>
-        <div>
-          <div className="w-full">
-            <label className="flex items-start gap-2 text-xs font-bold leading-relaxed text-gray-900" htmlFor="conditions">
-              <input id="conditions" onChange={handleChange} checked={formData.conditions} type="checkbox" className="mt-0.5 shrink-0 leading-tight"/>
-              <span>Cliquez ici pour accepter nos <a href="/terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.</span>
+      <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
+            <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="password">
+            <input id="conditions" onChange={handleChange} checked={formData.conditions} type="checkbox" className="mr-2 leading-tight" />
+              Cliquez ici pour accepter nos <a href="/general-terms" className="text-blue-500 hover:text-blue-700">conditions d'utilisation</a> et notre <a href="/privacy" className="text-blue-500 hover:text-blue-700">politique de confidentialité</a>.
             </label>
           </div>
         </div>
