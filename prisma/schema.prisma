@@ -84,6 +84,7 @@ model Job {
   giverId     String
   giver       User      @relation("PostedJobs", fields: [giverId], references: [id], onDelete: Cascade)
   applications Application[]
+  reportedNb Int              @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   archived    Boolean   @default(false)

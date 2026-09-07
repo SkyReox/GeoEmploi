@@ -33,6 +33,7 @@ type AdminJob = {
   description: string;
   location: string;
   salary: number | null;
+  reportedNb: number;
   status: JobStatus | null;
   createdAt: string;
   giver: {
@@ -322,6 +323,7 @@ export default function AdminDashboard() {
                           <div className="flex flex-wrap items-center gap-2"><h3 className="font-semibold text-ink">{job.title}</h3><Badge variant={jobStatusVariant[status]}>{jobStatusLabel[status]}</Badge></div>
                           <p className="mt-1 text-sm text-neutral">{job.location} · Publiée le {formatDate(job.createdAt)}</p>
                           <p className="mt-1 text-sm text-neutral">Par {getFullName(job.giver)} ({job.giver.email}) · {job._count.applications} candidature{job._count.applications > 1 ? "s" : ""}</p>
+                          <p className="flex flex-col mt-1 text-red-600 text-neutral">signalé {job.reportedNb.toString()} fois</p>
                           {isDetailOpen && (
                             <div id={`job-details-${job.id}`} className="mt-3 rounded-lg border border-dashed border-border bg-neutral-bg/50 p-3 text-sm text-ink">
                               <p className="font-medium">Description</p>
