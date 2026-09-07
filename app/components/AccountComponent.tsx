@@ -28,6 +28,7 @@ export default function AccountComponent() {
 
 
   const [savingProfile, setSavingProfile] = useState(false);
+  const [exportingData, setExportingData] = useState(false);
   
 
   /*
@@ -102,6 +103,39 @@ export default function AccountComponent() {
     }
   };
 
+  const handleDataExport = async () => {
+    setError("");
+    setExportingData(true);
+
+    try {
+      const response = await fetch("/api/me/export");
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "Impossible de préparer l’export.");
+      }
+
+      const file = await response.blob();
+      const downloadUrl = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "geoemploi-donnees-personnelles.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(downloadUrl);
+    } catch (exportError) {
+      console.error(exportError);
+      setError(
+        exportError instanceof Error
+          ? exportError.message
+          : "Impossible de préparer l’export.",
+      );
+    } finally {
+      setExportingData(false);
+    }
+  };
+
   /*
    * Chargement
    */
@@ -122,7 +156,7 @@ export default function AccountComponent() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Prénom :
+                    Prénom:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -132,7 +166,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Nom :
+                    Nom:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -142,7 +176,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Email :
+                    Email:
                   </p>
 
                   <p className="text-sm text-neutral">
@@ -152,7 +186,7 @@ export default function AccountComponent() {
 
                 <div>
                   <p className="text-sm font-medium font-semibold text-ink">
-                    Type de compte :
+                    Type de compte:
                   </p>
 
                   <Badge>
@@ -165,13 +199,32 @@ export default function AccountComponent() {
 
               <div className="mt-4">
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => setEditingProfile(true)}
                 >
                   Modifier mon profil
                 </Button>
+
+                <Button
+                  className="ml-2"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleDataExport}
+                  disabled={exportingData}
+                >
+                  {exportingData
+                    ? "Préparation de l’export..."
+                    : "Télécharger mes données (JSON)"}
+                </Button>
               </div>
+
+              {error && (
+                <p role="alert" className="mt-3 text-sm text-red-600">
+                  {error}
+                </p>
+              )}
             </>
     );
   } else {
@@ -230,6 +283,7 @@ export default function AccountComponent() {
 
               <div className="flex gap-2">
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={handleUpdateProfile}
@@ -239,6 +293,7 @@ export default function AccountComponent() {
                 </Button>
 
                 <Button
+                  className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
                   size="sm"
                   onClick={() => {

@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --main-color-1: #1B3A6B;
+  --main-color-1: #006faf; /* #1B3A6B */
   --main-color-2: #fff;
 }
 
@@ -37,6 +37,10 @@ body {
   background-color: var(--main-color-2);
 }
 
+.redIcon {
+  filter: hue-rotate(200deg);
+}
+/* 
 h1 {
   font-family: "Marianne", arial, sans-serif;
 }
@@ -59,8 +63,4 @@ h5 {
 
 h6 {
   font-family: "Marianne", arial, sans-serif;
-}
-
-.redIcon {
-  filter: hue-rotate(200deg);
 }

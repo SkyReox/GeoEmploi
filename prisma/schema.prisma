@@ -86,6 +86,7 @@ model Job {
   applications Application[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  archived    Boolean   @default(false)
 }
 
 enum JobStatus {
