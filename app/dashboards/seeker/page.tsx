@@ -12,6 +12,17 @@ import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import AccountComponent from "@/app/components/AccountComponent";
 
+type Application = {
+  id: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  createdAt?: string;
+
+  job?: {
+    title: string;
+    description: string;
+  };
+};
+
 enum Availability {
   FULL_TIME = "FULL_TIME",
   PART_TIME = "PART_TIME",
@@ -61,6 +72,8 @@ export default function Home() {
   const [experienceStartDate, setExperienceStartDate] = useState("");
   const [experienceEndDate, setExperienceEndDate] = useState("");
   const [experienceLoading, setExperienceLoading] = useState(false);
+  const [loadingApplications, setLoadingApplications] = useState(false);
+  const [applicationsData, setApplicationsData] = useState<Application []>([]);
 
   const handleAddSkill = async () => {
     if (!skillName.trim()) {
@@ -164,6 +177,23 @@ export default function Home() {
     }
   };
 
+  /*
+   * Formatage de la date
+   */
+  const formatDate = (date: string | undefined) => {
+    if (!date) {
+      return "";
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "";
+    }
+
+    return parsedDate.toLocaleDateString("fr-FR");
+  };
+
   const handleBioChange = async () => {
     try {
       if (!profileData) {
@@ -199,6 +229,31 @@ export default function Home() {
     }
   };
 
+  const handleDeleteApplication = async (appId: string) => {
+    try{
+      const response = await fetch(
+        `/api/applications/${appId}`,
+        {
+          method: "DELETE",
+        }
+
+      );
+      if (!response.ok) {
+        throw new Error(
+          "Erreur lors de la suppression de l'expérience."
+        );
+      }
+      setApplicationsData((prev) =>
+        prev.filter(
+          (app) => app.id !== appId
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      setError("Erreur lors de la suppression de l'expérience.");
+    };
+  }
+
   const handleDeleteExperience = async (experienceId: string) => {
     try {
       const response = await fetch(
@@ -228,27 +283,31 @@ export default function Home() {
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const [profileResponse, skillsResponse] = await Promise.all([
+        const [profileResponse, skillsResponse, appsResponse] = await Promise.all([
           fetch("/api/seeker/profile"),
           fetch("/api/seeker/skills"),
+          fetch("/api/applications")
         ]);
 
-        if (!profileResponse.ok || !skillsResponse.ok) {
+        if (!profileResponse.ok || !skillsResponse.ok || !appsResponse.ok) {
           throw new Error("Impossible de récupérer les données.");
         }
 
         const profile = await profileResponse.json();
         const skills = await skillsResponse.json();
         const experiences = profile.experiences || [];
+        const applications = await appsResponse.json();
 
         setProfileData(profile);
         setSkillsData(skills);
+        setApplicationsData(applications.applications);
         setExperiencesData(experiences);
       } catch (error) {
         console.error(error);
         setError("Impossible de charger le dashboard.");
       } finally {
         setLoading(false);
+        setLoadingApplications(false);
       }
     };
 
@@ -663,6 +722,86 @@ export default function Home() {
         <CardHeader>
           <CardTitle>Mes candidatures récentes</CardTitle>
         </CardHeader>
+          <div className="mt-3 rounded-lg bg-white p-4 text-black">
+            {loadingApplications ? (
+              <p className="text-sm text-neutral">
+                Chargement des candidatures...
+              </p>
+            ) : !applicationsData ||
+              applicationsData.length === 0 ? (
+              <p className="text-sm text-neutral">
+                Aucune candidature pour cette offre.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm font-semibold text-ink">
+                  {applicationsData.length}{" "}
+                  {applicationsData.length > 1
+                    ? "candidatures"
+                    : "candidature"}
+                </p>
+
+                {applicationsData.map((application) => (
+                  <div
+                    key={application.id}
+                    className="rounded-lg border border-dashed border-border p-4"
+                  >
+                    {/* Identité de l'offre */}
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-ink">
+                          {application.job?.title}
+                        </p>
+
+                        {application.job?.description && (
+                          <p className="mt-1 text-sm text-neutral">
+                            {application.job.description}
+                          </p>
+                        )}
+                      </div>
+
+                      <Badge className={application.status === "PENDING"
+                          ? "text-blue-600"
+                          : application.status === "ACCEPTED"
+                          ? "text-green-600"
+                          : "text-red-600"}>
+                        {application.status === "PENDING"
+                          ? "En attente"
+                          : application.status === "ACCEPTED"
+                          ? "Acceptée"
+                          : "Rejetée"}
+                      </Badge>
+                    </div>
+
+                    {/* Date */}
+                    {application.createdAt && (
+                      <div className="mt-3">
+                        <p className="text-xs text-neutral">
+                          Candidature envoyée le{" "}
+                          {formatDate(application.createdAt)}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Actions */}
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <button
+                          className="flex pr-2 pl-2 items-center justify-center border border-rounded rounded-full text-red transition hover:bg-red-600 hover:text-white"
+                          onClick={() =>
+                            handleDeleteApplication(
+                              application.id,
+                            )
+                          }
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        
       </Card>
     </div>
   );
