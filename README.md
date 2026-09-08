@@ -5,6 +5,7 @@ Application Next.js de mise en relation autour de l'emploi. Elle utilise Postgre
 ## Prérequis
 
 - Node.js 22 (ou une version LTS compatible)
+- Python 3.12
 - npm
 - Docker et Docker Compose
 
