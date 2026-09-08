@@ -20,6 +20,8 @@ type AdminUser = {
   lastname: string;
   role: UserRole;
   banned: boolean;
+  siret: string;
+  companyName: string
   createdAt: string;
   _count: {
     jobsPosted: number;
@@ -254,6 +256,8 @@ export default function AdminDashboard() {
                   </Badge>
                 </div>
                 <p className="mt-1 truncate text-sm text-neutral">{user.email}</p>
+                <p className="mt-1 truncate text-sm text-neutral">Siret: {user.siret}</p>
+                <p className="mt-1 truncate text-sm text-neutral">Entreprise: {user.companyName}</p>
                 <p className="mt-1 text-xs text-neutral">
                   {activity} {activityLabel} · Inscrit le {formatDate(user.createdAt)}
                 </p>

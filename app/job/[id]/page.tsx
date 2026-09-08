@@ -18,6 +18,8 @@ type Job = {
     id: string;
     firstname?: string | null;
     lastname?: string | null;
+    companyName?: string | null;
+    siret?: string | null;
   };
 };
 
@@ -212,6 +214,7 @@ export default function JobDetailsPage() {
   const giverName = job.giver
     ? `${job.giver.firstname ?? ""} ${job.giver.lastname ?? ""}`.trim() || "Entreprise"
     : "Entreprise";
+  const companyName = job.giver?.companyName?.trim() || giverName;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -245,7 +248,7 @@ export default function JobDetailsPage() {
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-500">Entreprise</p>
-              <p className="mt-2 text-base font-semibold text-slate-900">{giverName}</p>
+              <p className="mt-2 text-base font-semibold text-slate-900">{companyName}</p>
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-500">Date</p>
