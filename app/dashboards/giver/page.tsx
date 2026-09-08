@@ -547,14 +547,14 @@ export default function GiverDashboard() {
                           )}
                         </div>
 
-                        <button
-                          type="button"
+                        <Button
+                          variant="danger"
                           onClick={() => handleDeleteJob(job.id)}
-                          className="shrink-0 rounded-lg px-2 py-1 text-xs text-neutral font-semibold transition-colors cursor-pointer border-2 border-blue-700 hover:bg-red-200 hover:text-red-700 hover:border-red-100"
+                          className="shrink-0 rounded-lg px-2 py-1 text-xs text-neutral font-semibold transition-colors cursor-pointer"
                           aria-label={`Supprimer ${job.title}`}
                         >
                           Supprimer
-                        </button>
+                        </Button>
                       </div>
 
                       {job.description && (

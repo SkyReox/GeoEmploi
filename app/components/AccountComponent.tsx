@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -15,6 +16,7 @@ type User = {
 
 
 export default function AccountComponent() {
+  const router = useRouter();
   const [userData, setUserData] = useState<User | null>(null);
 
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,7 @@ export default function AccountComponent() {
 
   const [savingProfile, setSavingProfile] = useState(false);
   const [exportingData, setExportingData] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   
 
   /*
@@ -136,6 +139,41 @@ export default function AccountComponent() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setError("");
+    setDeletingAccount(true);
+
+    try {
+      const response = await fetch("/api/me", {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "Impossible de supprimer le compte.");
+      }
+
+      router.push("/login");
+    } catch (deleteError) {
+      console.error(deleteError);
+      setError(
+        deleteError instanceof Error
+          ? deleteError.message
+          : "Impossible de supprimer le compte."
+      );
+    } finally {
+      setDeletingAccount(false);
+    }
+  };
+
   /*
    * Chargement
    */
@@ -217,6 +255,16 @@ export default function AccountComponent() {
                   {exportingData
                     ? "Préparation de l’export..."
                     : "Télécharger mes données (JSON)"}
+                </Button>
+
+                <Button
+                  className="ml-2"
+                  variant="danger"
+                  size="sm"
+                  onClick={handleDeleteAccount}
+                  disabled={deletingAccount}
+                >
+                  {deletingAccount ? "Suppression..." : "Supprimer mon compte"}
                 </Button>
               </div>
 
