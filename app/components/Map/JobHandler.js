@@ -233,11 +233,13 @@ export default function ShowAllJobsButton() {
                     <>
                       <br />
                       {group.jobs[0].salary} €
+                      <ApplyButton job={group.jobs[0]} />
+                      <ReportButton job={group.jobs[0]} />
+                      <a href={`/job/${group.jobs[0].id}`}>Détails</a>
                     </>
                   )}
                   <br />
-                  <ApplyButton job={group.jobs[0]} />
-                  <ReportButton job={group.jobs[0]} />
+
                 </>
               )}
             </Popup>
