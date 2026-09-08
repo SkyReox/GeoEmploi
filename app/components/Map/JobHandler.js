@@ -28,6 +28,74 @@ export default function ShowAllJobsButton() {
     }
   }
 
+  async function handleApply(jobId) {
+    const isAuth = await checkAuth();
+    if (!isAuth) {
+      return;
+    }
+    setApplyStatus((prev) => ({ ...prev, [jobId]: 'loading' }));
+    try {
+      const res = await fetch(`/api/jobs/${jobId}/apply`, {
+        method: 'POST',
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 409) {
+        setApplyMessage((prev) => ({ ...prev, [jobId]: 'already-applied' }));
+        setApplyStatus((prev) => ({ ...prev, [jobId]: data.error }));
+        return (
+          <Popup>
+            Vous avez déjà postulé à cet emploi.
+          </Popup>
+        );
+      }
+      setApplyStatus((prev) => ({ ...prev, [jobId]: 'success' }));
+      setApplyMessage((prev) => ({ ...prev, [jobId]: data.message || 'Candidature envoyée avec succès.' }));
+    } catch (err) {
+      console.error(err);
+      setApplyStatus((prev) => ({ ...prev, [jobId]: 'error' }));
+      setApplyMessage((prev) => ({ ...prev, [jobId]: err.message}));
+    }
+  }
+
+  const groupedJobs = useMemo(() => {
+    const groups = new Map();
+    for (const job of jobs) {
+      const key = `${job.latitude},${job.longitude}`;
+      if (!groups.has(key)) {
+        groups.set(key, {
+          latitude: job.latitude,
+          longitude: job.longitude,
+          jobs: [],
+        });
+      }
+      groups.get(key).jobs.push(job);
+    }
+    return Array.from(groups.values());
+  }, [jobs]);
+
+  function ApplyButton({ job }) {
+    const status = applyStatus[job.id];
+    const message = applyMessage[job.id];
+
+    if (status === 'success') {
+      return <span style={{ color: 'green' }}>Candidature envoyée</span>;
+    }
+    if (message === 'already-applied') {
+      return <span style={{ color: 'orange' }}>Vous avez déjà postulé</span>;
+    }
+    return (
+      <Button
+        onClick={() => handleApply(job.id)}
+        disabled={status === 'loading'}
+        className="apply-button"
+        variant="outline"
+      >
+        {status === 'loading' ? 'Envoi...' : 'Postuler'}
+      </Button>
+    );
+  }
+
+  console.log('Grouped:', groupedJobs.map(g => ({ addr: g.jobs[0].location, count: g.jobs.length })));
   return (
     <>
     <button
