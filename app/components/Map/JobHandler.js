@@ -8,18 +8,20 @@ export default function ShowAllJobsButton() {
   const [jobs, setJobs] = useState([]);
   const [applyStatus, setApplyStatus] = useState({});
   const [applyMessage, setApplyMessage] = useState({});
+  const [reportMessage, setReportMessage] = useState({});
+  const [reportStatus, setReportStatus] = useState({});
 
   async function checkAuth() {
     try {
       const res = await fetch('/api/me');
       if (!res.ok) {
-        alert("Vous devez être connecté pour postuler à un emploi.");
+        alert("Vous devez être connecté pour effectuer cette action.");
         return false;
       }
       return true;
     } catch (err) {
       console.error(err);
-      alert("Vous devez être connecté pour postuler à un emploi.");
+      alert("Vous devez être connecté pour effectuer cette action.");
       return false;
     }
   }
@@ -76,6 +78,35 @@ export default function ShowAllJobsButton() {
     }
   }
 
+  async function handleReport(jobId) {
+    const isAuth = await checkAuth();
+    if (!isAuth) {
+      return;
+    }
+    setReportStatus((prev) => ({ ...prev, [jobId]: 'loading' }));
+    try {
+      const res = await fetch(`/api/jobs/${jobId}/report`, {
+        method: 'POST',
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 409) {
+        setReportMessage((prev) => ({ ...prev, [jobId]: 'already-reported' }));
+        setReportStatus((prev) => ({ ...prev, [jobId]: data.error }));
+        return (
+          <Popup>
+            Cette offre a déjà été signalée.
+          </Popup>
+        );
+      }
+      setReportStatus((prev) => ({ ...prev, [jobId]: 'success' }));
+      setReportMessage((prev) => ({ ...prev, [jobId]: data.message || 'Offre signalée avec succès.' }));
+    } catch (err) {
+      console.error(err);
+      setReportStatus((prev) => ({ ...prev, [jobId]: 'error' }));
+      setReportMessage((prev) => ({ ...prev, [jobId]: err.message}));
+    }
+  }
+
   const groupedJobs = useMemo(() => {
     const groups = new Map();
     for (const job of jobs) {
@@ -91,6 +122,24 @@ export default function ShowAllJobsButton() {
     }
     return Array.from(groups.values());
   }, [jobs]);
+
+  function ReportButton({ job }) {
+    const message = reportMessage[job.id];
+    const statusR = reportStatus[job.id];
+    if (statusR === 'success')
+      return <span style={{ color: 'green' }}>Vous avez bien signalé cette offre.</span>;
+    if (message === 'already-reported')
+      return <span style={{ color: 'orange' }}>Offre déjà signalée.</span>;
+    return (
+      <Button
+        onClick={() => handleReport(job.id)}
+        className='report-button'
+        disabled={statusR === 'loading'}
+        variant="outline">
+        {statusR === 'loading' ? 'Envoi...' : 'Signaler'}  
+      </Button>
+    );
+  }
 
   function ApplyButton({ job }) {
     const status = applyStatus[job.id];
@@ -170,6 +219,8 @@ export default function ShowAllJobsButton() {
                       )}
                       <br />
                       <ApplyButton job={job} />
+                      <br />
+                      <ReportButton job={job} />
                     </div>
                   ))}
                 </div>
@@ -186,6 +237,7 @@ export default function ShowAllJobsButton() {
                   )}
                   <br />
                   <ApplyButton job={group.jobs[0]} />
+                  <ReportButton job={group.jobs[0]} />
                 </>
               )}
             </Popup>
