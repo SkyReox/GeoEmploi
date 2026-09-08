@@ -11,6 +11,8 @@ export default function SignupPage() {
     password: "",
     passwordConfirm: "",
     role: "SEEKER",
+    companyName: "",
+    siret: "",
     conditions: false
   });
   const [errors, setErrors] = useState<string | null>(null);
@@ -34,6 +36,19 @@ export default function SignupPage() {
     setErrors("Veuillez remplir tous les champs.");
     return;
   }
+
+  if (formData.role === "GIVER") {
+    if (!formData.companyName.trim()) {
+      setErrors("Le nom de l'entreprise est requis pour un recruteur.");
+      return;
+    }
+
+    if (!/^\d{14}$/.test(formData.siret.trim())) {
+      setErrors("Le numéro SIRET doit contenir exactement 14 chiffres.");
+      return;
+    }
+  }
+
   if (formData.password.length < 8) {
     setErrors("Le mot de passe doit contenir au moins 8 caractères.");
     return;
@@ -67,16 +82,22 @@ export default function SignupPage() {
       password: formData.password,
       firstname: formData.firstName,
       lastname: formData.lastName,
-      role: formData.role
+      role: formData.role,
+      companyName: formData.role === "GIVER" ? formData.companyName : undefined,
+      siret: formData.role === "GIVER" ? formData.siret : undefined,
     }),
   });
 
   console.log(response);
 
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData = await response.json().catch(() => null);
     console.log(errorData);
-    setErrors(errorData?.error || "Une erreur est survenue lors de l'inscription.");
+    const errorMessage =
+      typeof errorData?.error === "string"
+        ? errorData.error
+        : "Une erreur est survenue lors de l'inscription.";
+    setErrors(errorMessage);
     return;
   }
 
@@ -186,10 +207,44 @@ export default function SignupPage() {
             Statut
           </label>
           <select className="block appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="role" value={formData.role} onChange={handleChange}>
-            <option value="SEEKER">Chercheur</option>
+            <option value="SEEKER">Demandeur d'emplois</option>
             <option value="GIVER">Recruteur</option>
           </select>
         </div>
+
+        {formData.role === "GIVER" && (
+          <>
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="companyName">
+                Nom de l&apos;entreprise<span className="text-red-500">*</span>
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="companyName"
+                type="text"
+                value={formData.companyName}
+                onChange={handleChange}
+                placeholder="GeoEmploi SAS"
+                maxLength={200}
+              />
+            </div>
+
+            <div className="w-full">
+              <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="siret">
+                Numéro SIRET<span className="text-red-500">*</span>
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="siret"
+                type="text"
+                value={formData.siret}
+                onChange={handleChange}
+                placeholder="12345678901234"
+                maxLength={14}
+              />
+            </div>
+          </>
+        )}
         <div className="mb-2">
           <p className="text-gray-700 text-sm italic"><span className="text-red-500">*</span> Champ obligatoire</p>
         </div>

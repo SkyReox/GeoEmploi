@@ -12,6 +12,8 @@ type User = {
   lastname: string;
   email: string;
   role: "SEEKER" | "GIVER";
+  companyName?: string | null;
+  siret?: string | null;
 };
 
 
@@ -233,6 +235,30 @@ export default function AccountComponent() {
                       : "Demandeur d'emploi"}
                   </Badge>
                 </div>
+
+                {userData?.role === "GIVER" && (
+                  <>
+                    <div>
+                      <p className="text-sm font-medium font-semibold text-ink">
+                        Nom de l&apos;entreprise:
+                      </p>
+
+                      <p className="text-sm text-neutral">
+                        {userData?.companyName || "Non renseigné"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium font-semibold text-ink">
+                        SIRET:
+                      </p>
+
+                      <p className="text-sm text-neutral">
+                        {userData?.siret || "Non renseigné"}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="mt-4">

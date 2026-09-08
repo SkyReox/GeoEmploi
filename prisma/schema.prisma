@@ -16,15 +16,17 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  role      Role
-  firstname      String @default("")
-  lastname      String @default("")
-  banned    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  role        Role
+  firstname   String   @default("")
+  lastname    String   @default("")
+  companyName String?
+  siret       String?  @unique
+  banned      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   seekerProfile SeekerProfile?
   jobsPosted    Job[]           @relation("PostedJobs")

@@ -51,7 +51,11 @@ export async function GET(request: NextRequest) {
     prisma.job.findMany({
       where,
       orderBy: { createdAt: "desc" },
-      include: { giver: { select: { id: true, firstname: true, lastname: true } } },
+      include: {
+        giver: {
+          select: { id: true, firstname: true, lastname: true, companyName: true, siret: true },
+        },
+      },
     }),
     prisma.job.count({ where }),
   ]);

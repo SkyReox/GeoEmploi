@@ -17,7 +17,16 @@ export const GET = withAuth(["SEEKER", "GIVER"], async (request, _context, sessi
       where,
       orderBy: { createdAt: "desc" },
       include: {
-        job: { select: { id: true, title: true, location: true, status: true } },
+        job: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            location: true,
+            status: true,
+            giver: { select: { companyName: true } },
+          },
+        },
         seeker: {
           select: {
             id: true,

@@ -19,7 +19,16 @@ export const GET = withAuth(["ADMIN"], async (request) => {
       where,
       orderBy: { createdAt: "desc" },
       include: {
-        giver: { select: { id: true, firstname: true, lastname: true, email: true } },
+        giver: {
+          select: {
+            id: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+            companyName: true,
+            siret: true,
+          },
+        },
         _count: { select: { applications: true } },
       },
     }),

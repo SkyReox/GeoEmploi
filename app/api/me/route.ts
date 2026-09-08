@@ -16,6 +16,8 @@ export const GET = withAuth(
         lastname: true,
         email: true,
         role: true,
+        companyName: true,
+        siret: true,
       },
     });
 
@@ -69,6 +71,8 @@ export const PUT = withAuth(
         lastname: true,
         email: true,
         role: true,
+        companyName: true,
+        siret: true,
       },
     });
 
