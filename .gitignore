@@ -38,3 +38,10 @@ next-env.d.ts
 
 # Database
 prisma/migrations
+
+# Testing
+results/
+
+# Others
+.vscode/
+__pycache__/

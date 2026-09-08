@@ -1,3 +1,6 @@
+Programming Language :: Python
+Programming Language :: Python :: 3.5
+
 # GeoEmploi
 
 Application Next.js de mise en relation autour de l'emploi. Elle utilise PostgreSQL via Prisma et Auth.js pour l'authentification.
