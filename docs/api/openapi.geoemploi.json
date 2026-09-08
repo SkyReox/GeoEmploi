@@ -1,0 +1,1146 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GeoEmploi API",
+    "version": "1.0.0",
+    "description": "Documentation OpenAPI de l'API GeoEmploi. Les exemples ci-dessous proviennent de requêtes réellement exécutées sur l'application locale pendant le développement."
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "Local development" }
+  ],
+  "tags": [
+    { "name": "Auth" },
+    { "name": "Jobs" },
+    { "name": "Applications" },
+    { "name": "Seeker" },
+    { "name": "Admin" },
+    { "name": "System" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "authjs.session-token"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" }
+        },
+        "required": ["error"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "firstname": { "type": "string" },
+          "lastname": { "type": "string" },
+          "role": { "type": "string", "enum": ["SEEKER", "GIVER", "ADMIN"] },
+          "banned": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "location": { "type": "string" },
+          "latitude": { "type": "number", "nullable": true },
+          "longitude": { "type": "number", "nullable": true },
+          "salary": { "type": "integer", "nullable": true },
+          "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED", "CLOSED"] },
+          "giverId": { "type": "string" },
+          "reportedNb": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" },
+          "archived": { "type": "boolean" },
+          "giver": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "firstname": { "type": "string" },
+              "lastname": { "type": "string" },
+              "email": { "type": "string" }
+            }
+          }
+        },
+        "required": ["id", "title", "description", "location", "status", "giverId", "reportedNb", "createdAt", "updatedAt", "archived"]
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "jobId": { "type": "string" },
+          "seekerId": { "type": "string" },
+          "status": { "type": "string", "enum": ["PENDING", "ACCEPTED", "REJECTED"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "profileId": { "type": "string" }
+        }
+      },
+      "SeekerProfile": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "userId": { "type": "string" },
+          "bio": { "type": "string", "nullable": true },
+          "availability": { "type": "string", "enum": ["FULL_TIME", "PART_TIME", "FREELANCE", "INTERNSHIP", "NOT_AVAILABLE"] },
+          "availableFrom": { "type": "string", "nullable": true },
+          "updatedAt": { "type": "string", "format": "date-time" },
+          "skills": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Skill" }
+          },
+          "experiences": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Experience" }
+          }
+        }
+      },
+      "Experience": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "company": { "type": "string" },
+          "startDate": { "type": "string" },
+          "endDate": { "type": "string", "nullable": true },
+          "description": { "type": "string", "nullable": true },
+          "profileId": { "type": "string" }
+        }
+      },
+      "JobListResponse": {
+        "type": "object",
+        "properties": {
+          "jobs": { "type": "array", "items": { "$ref": "#/components/schemas/Job" } },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "page": { "type": "integer" },
+              "limit": { "type": "integer" },
+              "total": { "type": "integer" },
+              "totalPages": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "ApplicationListResponse": {
+        "type": "object",
+        "properties": {
+          "applications": { "type": "array", "items": { "$ref": "#/components/schemas/Application" } },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "page": { "type": "integer" },
+              "limit": { "type": "integer" },
+              "total": { "type": "integer" },
+              "totalPages": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "UserListResponse": {
+        "type": "object",
+        "properties": {
+          "users": { "type": "array", "items": { "$ref": "#/components/schemas/User" } },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "page": { "type": "integer" },
+              "limit": { "type": "integer" },
+              "total": { "type": "integer" },
+              "totalPages": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    { "sessionCookie": [] }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "Application healthy",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "ok",
+                  "version": "0.1.0",
+                  "database": { "status": "ok", "responseTimeMs": 8 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "new.user@example.com",
+                "password": "MotDePasse123!",
+                "firstname": "Romain",
+                "lastname": "Dupont",
+                "role": "SEEKER"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovqot0001hhsd9en76mad",
+                  "email": "new.user@example.com",
+                  "role": "SEEKER"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": { "error": { "fieldErrors": { "email": ["Invalid email"] } } }
+              }
+            }
+          },
+          "409": {
+            "description": "Email already exists",
+            "content": {
+              "application/json": {
+                "example": { "error": "Cet email est déjà utilisé" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current authenticated user",
+        "security": [{ "sessionCookie": [] }],
+        "responses": {
+          "200": {
+            "description": "Authenticated session",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovq5q0000hhsdg58ur1uk",
+                  "firstname": "Alice",
+                  "lastname": "Giver",
+                  "email": "giver.swagger@example.com",
+                  "role": "GIVER"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": { "error": "Non authentifié" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Auth"],
+        "summary": "Update current user",
+        "security": [{ "sessionCookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "firstname": "Alice",
+                "lastname": "Giver",
+                "email": "giver.swagger@example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovq5q0000hhsdg58ur1uk",
+                  "firstname": "Alice",
+                  "lastname": "Giver",
+                  "email": "giver.swagger@example.com",
+                  "role": "GIVER"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/jobs": {
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "List jobs",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "location", "in": "query", "schema": { "type": "string" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated jobs list",
+            "content": {
+              "application/json": {
+                "example": {
+                  "jobs": [
+                    {
+                      "id": "job-swagger-demo",
+                      "title": "Développeur Full Stack H/F",
+                      "description": "Nous recherchons un développeur full stack pour accompagner le refonte de notre plateforme.",
+                      "location": "Paris 11e",
+                      "latitude": 48.859,
+                      "longitude": 2.392,
+                      "salary": 52000,
+                      "status": "APPROVED",
+                      "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                      "reportedNb": 0,
+                      "createdAt": "2026-09-07T20:24:37.121Z",
+                      "updatedAt": "2026-09-07T20:24:37.121Z",
+                      "archived": false,
+                      "giver": {
+                        "id": "cmtrovq5q0000hhsdg58ur1uk",
+                        "firstname": "Alice",
+                        "lastname": "Giver"
+                      }
+                    }
+                  ],
+                  "pagination": { "page": 1, "limit": 5, "total": 1, "totalPages": 1 }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Jobs"],
+        "summary": "Create a job (GIVER only)",
+        "security": [{ "sessionCookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "title": "Lead Developer",
+                "description": "Mission de refonte frontend",
+                "location": "Paris 11e",
+                "salary": 60000
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozih70001hhw7vx8r31np",
+                  "title": "Lead Developer",
+                  "description": "Mission de refonte frontend",
+                  "location": "Paris 11e",
+                  "latitude": 48.860162,
+                  "longitude": 2.381844,
+                  "salary": 60000,
+                  "status": "APPROVED",
+                  "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                  "reportedNb": 0,
+                  "createdAt": "2026-09-07T20:27:32.299Z",
+                  "updatedAt": "2026-09-07T20:27:32.299Z",
+                  "archived": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": { "error": "Accès refusé" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/jobs/{id}": {
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "Get one job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Job found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozih70001hhw7vx8r31np",
+                  "title": "Lead Developer",
+                  "description": "Mission de refonte frontend",
+                  "location": "Paris 11e",
+                  "latitude": 48.860162,
+                  "longitude": 2.381844,
+                  "salary": 60000,
+                  "status": "APPROVED",
+                  "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                  "reportedNb": 0,
+                  "createdAt": "2026-09-07T20:27:32.299Z",
+                  "updatedAt": "2026-09-07T20:27:32.299Z",
+                  "archived": false,
+                  "giver": { "id": "cmtrovq5q0000hhsdg58ur1uk", "firstname": "Alice", "lastname": "Giver" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Job not found",
+            "content": {
+              "application/json": {
+                "example": { "error": "Job introuvable" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Jobs"],
+        "summary": "Update a job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "title": "Lead Developer Senior",
+                "description": "Mission de refonte moderne frontend",
+                "location": "Paris 11e",
+                "salary": 65000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated job",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozih70001hhw7vx8r31np",
+                  "title": "Lead Developer Senior",
+                  "description": "Mission de refonte moderne frontend",
+                  "location": "Paris 11e",
+                  "latitude": 48.860162,
+                  "longitude": 2.381844,
+                  "salary": 65000,
+                  "status": "PENDING",
+                  "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                  "reportedNb": 0,
+                  "createdAt": "2026-09-07T20:27:32.299Z",
+                  "updatedAt": "2026-09-07T20:27:32.299Z",
+                  "archived": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Jobs"],
+        "summary": "Delete a job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "Job deleted" }
+        }
+      }
+    },
+    "/api/jobs/{id}/apply": {
+      "post": {
+        "tags": ["Applications"],
+        "summary": "Apply to a job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "201": {
+            "description": "Application created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozkk40003hhw76lpy5is3",
+                  "jobId": "cmtrozih70001hhw7vx8r31np",
+                  "seekerId": "cmtrovqot0001hhsd9en76mad",
+                  "status": "PENDING",
+                  "createdAt": "2026-09-07T20:27:34.996Z",
+                  "updatedAt": "2026-09-07T20:27:34.996Z"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Already applied",
+            "content": {
+              "application/json": {
+                "example": { "error": "Vous avez déjà postulé à ce job" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/applications": {
+      "get": {
+        "tags": ["Applications"],
+        "summary": "List applications for current user role",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applications list",
+            "content": {
+              "application/json": {
+                "example": {
+                  "applications": [
+                    {
+                      "id": "cmtrozkk40003hhw76lpy5is3",
+                      "jobId": "cmtrozih70001hhw7vx8r31np",
+                      "seekerId": "cmtrovqot0001hhsd9en76mad",
+                      "status": "PENDING",
+                      "createdAt": "2026-09-07T20:27:34.996Z",
+                      "updatedAt": "2026-09-07T20:27:34.996Z",
+                      "job": {
+                        "id": "cmtrozih70001hhw7vx8r31np",
+                        "title": "Lead Developer",
+                        "location": "Paris 11e",
+                        "status": "APPROVED"
+                      },
+                      "seeker": {
+                        "id": "cmtrovqot0001hhsd9en76mad",
+                        "firstname": "Bob",
+                        "lastname": "Seeker",
+                        "email": "seeker.swagger@example.com",
+                        "seekerProfile": {
+                          "id": "cmtrovqoy0003hhsdidp3sl30",
+                          "userId": "cmtrovqot0001hhsd9en76mad",
+                          "bio": "Développeur full-stack en recherche active",
+                          "availability": "FULL_TIME",
+                          "availableFrom": "2026-09-15",
+                          "updatedAt": "2026-09-07T20:24:36.323Z",
+                          "skills": [
+                            { "id": "cmtrovqp40004hhsdqcd6xcat", "name": "TypeScript", "profileId": "cmtrovqoy0003hhsdidp3sl30" }
+                          ],
+                          "experiences": [
+                            {
+                              "id": "cmtrovqpg0008hhsdonxbv1i3",
+                              "title": "Développeur Frontend",
+                              "company": "NovaLabs",
+                              "startDate": "2024-01-01",
+                              "endDate": "2025-06-30",
+                              "description": "Conception et maintenance d’applications web",
+                              "profileId": "cmtrovqoy0003hhsdidp3sl30"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "pagination": { "page": 1, "limit": 10, "total": 2, "totalPages": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/applications/{id}": {
+      "put": {
+        "tags": ["Applications"],
+        "summary": "Accept or reject a candidate",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": { "status": "ACCEPTED" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Application updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozkk40003hhw76lpy5is3",
+                  "jobId": "cmtrozih70001hhw7vx8r31np",
+                  "seekerId": "cmtrovqot0001hhsd9en76mad",
+                  "status": "ACCEPTED",
+                  "createdAt": "2026-09-07T20:27:34.996Z",
+                  "updatedAt": "2026-09-07T20:27:34.996Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Applications"],
+        "summary": "Delete an application",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "Application deleted" }
+        }
+      }
+    },
+    "/api/geocode": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Geocode a location query",
+        "parameters": [
+          { "name": "q", "in": "query", "schema": { "type": "string" }, "example": "Paris 11e" },
+          { "name": "lat", "in": "query", "schema": { "type": "number" } },
+          { "name": "lon", "in": "query", "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geocoding result",
+            "content": {
+              "application/json": {
+                "example": {
+                  "features": [
+                    {
+                      "geometry": { "coordinates": [2.381844, 48.860162] },
+                      "properties": { "label": "Paris 11e" }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "example": { "error": "Indiquez une adresse ou des coordonnées" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seeker/profile": {
+      "get": {
+        "tags": ["Seeker"],
+        "summary": "Get seeker profile",
+        "security": [{ "sessionCookie": [] }],
+        "responses": {
+          "200": {
+            "description": "Seeker profile",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovqoy0003hhsdidp3sl30",
+                  "userId": "cmtrovqot0001hhsd9en76mad",
+                  "bio": "Développeur full-stack en recherche active",
+                  "availability": "FULL_TIME",
+                  "availableFrom": "2026-09-15",
+                  "updatedAt": "2026-09-07T20:24:36.323Z",
+                  "skills": [
+                    { "id": "cmtrovqp40004hhsdqcd6xcat", "name": "TypeScript", "profileId": "cmtrovqoy0003hhsdidp3sl30" },
+                    { "id": "cmtrovqp40005hhsdxyhoim1f", "name": "Next.js", "profileId": "cmtrovqoy0003hhsdidp3sl30" } 
+                  ],
+                  "experiences": [
+                    {
+                      "id": "cmtrovqpg0008hhsdonxbv1i3",
+                      "title": "Développeur Frontend",
+                      "company": "NovaLabs",
+                      "startDate": "2024-01-01",
+                      "endDate": "2025-06-30",
+                      "description": "Conception et maintenance d’applications web",
+                      "profileId": "cmtrovqoy0003hhsdidp3sl30"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Seeker"],
+        "summary": "Update seeker profile",
+        "security": [{ "sessionCookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "bio": "Développeur full-stack en recherche active",
+                "availability": "FULL_TIME",
+                "availableFrom": "2026-09-15"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovqoy0003hhsdidp3sl30",
+                  "userId": "cmtrovqot0001hhsd9en76mad",
+                  "bio": "Développeur full-stack en recherche active",
+                  "availability": "FULL_TIME",
+                  "availableFrom": "2026-09-15",
+                  "updatedAt": "2026-09-07T20:24:36.323Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seeker/skills": {
+      "get": {
+        "tags": ["Seeker"],
+        "summary": "List seeker skills",
+        "security": [{ "sessionCookie": [] }],
+        "responses": {
+          "200": {
+            "description": "Skills list",
+            "content": {
+              "application/json": {
+                "example": [
+                  { "id": "cmtrovqp40004hhsdqcd6xcat", "name": "TypeScript", "profileId": "cmtrovqoy0003hhsdidp3sl30" },
+                  { "id": "cmtrovqp40005hhsdxyhoim1f", "name": "Next.js", "profileId": "cmtrovqoy0003hhsdidp3sl30" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Seeker"],
+        "summary": "Create a skill",
+        "security": [{ "sessionCookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": { "name": "TypeScript" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Skill created",
+            "content": {
+              "application/json": {
+                "example": { "id": "cmtrovqp40004hhsdqcd6xcat", "name": "TypeScript", "profileId": "cmtrovqoy0003hhsdidp3sl30" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seeker/skills/{id}": {
+      "delete": {
+        "tags": ["Seeker"],
+        "summary": "Delete a skill",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "Skill deleted" }
+        }
+      }
+    },
+    "/api/seeker/experiences": {
+      "post": {
+        "tags": ["Seeker"],
+        "summary": "Create an experience",
+        "security": [{ "sessionCookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "title": "Développeur Frontend",
+                "company": "NovaLabs",
+                "startDate": "2024-01-01",
+                "endDate": "2025-06-30",
+                "description": "Conception et maintenance d’applications web"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Experience created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovqpg0008hhsdonxbv1i3",
+                  "title": "Développeur Frontend",
+                  "company": "NovaLabs",
+                  "startDate": "2024-01-01",
+                  "endDate": "2025-06-30",
+                  "description": "Conception et maintenance d’applications web",
+                  "profileId": "cmtrovqoy0003hhsdidp3sl30"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seeker/experiences/{id}": {
+      "put": {
+        "tags": ["Seeker"],
+        "summary": "Update an experience",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "title": "Développeur Frontend Senior",
+                "company": "NovaLabs",
+                "startDate": "2024-01-01",
+                "endDate": "2025-06-30",
+                "description": "Conception et maintenance d’applications web"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Experience updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovqpg0008hhsdonxbv1i3",
+                  "title": "Développeur Frontend Senior",
+                  "company": "NovaLabs",
+                  "startDate": "2024-01-01",
+                  "endDate": "2025-06-30",
+                  "description": "Conception et maintenance d’applications web",
+                  "profileId": "cmtrovqoy0003hhsdidp3sl30"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Seeker"],
+        "summary": "Delete an experience",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "Experience deleted" }
+        }
+      }
+    },
+    "/api/admin/jobs": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "List all jobs for administrator",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED", "CLOSED"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Jobs list",
+            "content": {
+              "application/json": {
+                "example": {
+                  "jobs": [
+                    {
+                      "id": "cmtrozih70001hhw7vx8r31np",
+                      "title": "Lead Developer",
+                      "description": "Mission de refonte frontend",
+                      "location": "Paris 11e",
+                      "latitude": 48.860162,
+                      "longitude": 2.381844,
+                      "salary": 60000,
+                      "status": "APPROVED",
+                      "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                      "reportedNb": 0,
+                      "createdAt": "2026-09-07T20:27:32.299Z",
+                      "updatedAt": "2026-09-07T20:27:32.299Z",
+                      "archived": false,
+                      "giver": {
+                        "id": "cmtrovq5q0000hhsdg58ur1uk",
+                        "firstname": "Alice",
+                        "lastname": "Giver",
+                        "email": "giver.swagger@example.com"
+                      },
+                      "_count": { "applications": 1 }
+                    }
+                  ],
+                  "pagination": { "page": 1, "limit": 10, "total": 3, "totalPages": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/jobs/{id}/approve": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Approve or reject a job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": { "action": "APPROVE" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Job status updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrozih70001hhw7vx8r31np",
+                  "title": "Lead Developer",
+                  "description": "Mission de refonte frontend",
+                  "location": "Paris 11e",
+                  "latitude": 48.860162,
+                  "longitude": 2.381844,
+                  "salary": 60000,
+                  "status": "APPROVED",
+                  "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                  "reportedNb": 0,
+                  "createdAt": "2026-09-07T20:27:32.299Z",
+                  "updatedAt": "2026-09-07T20:27:32.299Z",
+                  "archived": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/jobs/{id}/report": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Increment report count for a job",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Job reported",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "job-swagger-demo",
+                  "title": "Développeur Full Stack H/F",
+                  "description": "Nous recherchons un développeur full stack pour accompagner le refonte de notre plateforme.",
+                  "location": "Paris 11e",
+                  "latitude": 48.859,
+                  "longitude": 2.392,
+                  "salary": 52000,
+                  "status": "APPROVED",
+                  "giverId": "cmtrovq5q0000hhsdg58ur1uk",
+                  "reportedNb": 1,
+                  "createdAt": "2026-09-07T20:24:37.121Z",
+                  "updatedAt": "2026-09-07T20:24:37.121Z",
+                  "archived": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "List users",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "role", "in": "query", "schema": { "type": "string", "enum": ["SEEKER", "GIVER", "ADMIN"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users list",
+            "content": {
+              "application/json": {
+                "example": {
+                  "users": [
+                    {
+                      "id": "cmtrovq5q0000hhsdg58ur1uk",
+                      "email": "giver.swagger@example.com",
+                      "firstname": "Alice",
+                      "lastname": "Giver",
+                      "role": "GIVER",
+                      "banned": false,
+                      "createdAt": "2026-09-07T20:24:36.323Z",
+                      "_count": { "jobsPosted": 2, "applications": 1 }
+                    }
+                  ],
+                  "pagination": { "page": 1, "limit": 10, "total": 9, "totalPages": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/{id}": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Ban or unban a user",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": { "banned": true }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "cmtrovq5q0000hhsdg58ur1uk",
+                  "email": "giver.swagger@example.com",
+                  "firstname": "Alice",
+                  "lastname": "Giver",
+                  "role": "GIVER",
+                  "banned": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete a user",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "User deleted" }
+        }
+      }
+    },
+    "/api/me/export": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Export the current user's personal data",
+        "security": [{ "sessionCookie": [] }],
+        "responses": {
+          "200": {
+            "description": "Personal data export",
+            "content": {
+              "application/json": {
+                "example": {
+                  "exportedAt": "2026-09-07T20:27:41.297Z",
+                  "formatVersion": 1,
+                  "data": {
+                    "id": "cmtrovq5q0000hhsdg58ur1uk",
+                    "email": "giver.swagger@example.com",
+                    "firstname": "Alice",
+                    "lastname": "Giver",
+                    "role": "GIVER",
+                    "banned": false,
+                    "createdAt": "2026-09-07T20:24:36.323Z",
+                    "updatedAt": "2026-09-07T20:24:36.323Z",
+                    "consentsAtAccountCreation": [
+                      { "type": "TERMS_OF_SERVICE", "requestedAt": "2026-09-07T20:24:36.323Z", "source": "account_creation" },
+                      { "type": "PRIVACY_POLICY", "requestedAt": "2026-09-07T20:24:36.323Z", "source": "account_creation" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cron": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Archive old jobs",
+        "responses": {
+          "200": {
+            "description": "Archive result",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "archivedJobs": 3,
+                  "date": "2026-09-07T20:27:42.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
