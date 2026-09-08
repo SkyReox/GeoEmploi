@@ -261,7 +261,7 @@ export default function JobDetailsPage() {
           </div>
 
           {successMessage ? (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className={`rounded-xl border ${hasApplied ?"border-emerald-200 bg-emerald-50 text-emerald-700" : "border-red-200 bg-red-50 text-red-700"} px-4 py-3 text-sm `}>
               {successMessage}
             </div>
           ) : null}
