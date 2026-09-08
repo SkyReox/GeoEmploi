@@ -15,7 +15,7 @@ const variantStyles: Record<Variant, string> = {
   secondary: "bg-neutral-bg text-ink hover:bg-gray-300",
   outline: "border border-border text-ink",
   ghost: "text-ink hover:bg-gray-300",
-  danger: "bg-danger text-white hover:bg-danger/90",
+  danger: "bg-danger text-red-600 hover:bg-red-100 hover:text-red-600",
 };
 
 const sizeStyles: Record<Size, string> = {
