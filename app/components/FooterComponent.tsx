@@ -43,6 +43,12 @@ export default function FooterComponent() {
                         <li role="listitem">
                             <a href="/general-terms" className="text-white">Conditions générales d'utilisation</a>
                         </li>
+                        <li role="listitem">
+                            <a href="/transparence" className="text-white">Transparence</a>
+                        </li>
+                        <li role="listitem">
+                            <a href="/journal-des-modifications" className="text-white">Journal des modifications</a>
+                        </li>
                     </ul>
                 </div>
             </div>
