@@ -1,8 +1,28 @@
-import { useState } from 'react';
-import { Marker, Popup } from 'react-leaflet';
+import { useState, useMemo } from 'react';
+import { Popup, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Button } from '../ui/button';
 
 export default function ShowAllJobsButton() {
-  const  [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [applyStatus, setApplyStatus] = useState({});
+  const [applyMessage, setApplyMessage] = useState({});
+
+  async function checkAuth() {
+    try {
+      const res = await fetch('/api/me');
+      if (!res.ok) {
+        alert("Vous devez être connecté pour postuler à un emploi.");
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      alert("Vous devez être connecté pour postuler à un emploi.");
+      return false;
+    }
+  }
 
   async function handleClick() {
     try {
@@ -16,7 +36,6 @@ export default function ShowAllJobsButton() {
       const validJobs = jobs.filter(
         (job) => job.latitude != null && job.longitude != null
       );
-      
       if (validJobs.length > 0) {
         setJobs(validJobs);
       } else {
@@ -98,40 +117,81 @@ export default function ShowAllJobsButton() {
   console.log('Grouped:', groupedJobs.map(g => ({ addr: g.jobs[0].location, count: g.jobs.length })));
   return (
     <>
-    <button
-      onClick={handleClick}
-      style={{
-        position: 'absolute',
-        bottom: 80,
-        right: 10,
-        zIndex: 1000,
-        width: 40,
-        height: 40,
-        borderRadius: '50%',
-        color: "#000",
-        backgroundColor: '#fff',
-        border: '1px solid #ccc',
-        cursor: 'pointer',
-      }}
-    >
-      All Jobs
-    </button>
-
-    {jobs.map((job) => (
-        <Marker key={job.id} position={[job.latitude, job.longitude]} icon={L.icon({ iconUrl: 'pointer.png', iconSize: [15, 20] })}>
-          <Popup>
-            <strong>{job.title}</strong>
-            <br />
-            {job.location}
-            {job.salary && (
-              <>
-                <br />
-                {job.salary} €
-              </>
-            )}
-          </Popup>
-        </Marker>
-      ))}
+      <button
+        onClick={handleClick}
+        style={{
+          position: 'absolute',
+          bottom: 80,
+          right: 10,
+          zIndex: 1000,
+          width: 40,
+          height: 40,
+          borderRadius: '50%',
+          color: "#000",
+          backgroundColor: '#fff',
+          border: '1px solid #ccc',
+          cursor: 'pointer',
+        }}
+      >
+        All Jobs
+      </button>
+      <>
+        {groupedJobs.map((group) => (
+          <Marker
+            key={`${group.latitude},${group.longitude}`}
+            position={[group.latitude, group.longitude]}
+            icon={L.icon({
+              iconUrl: 'pointer.png',
+              iconSize: [20, 20],
+              className: 'redIcon',
+            })}
+          >
+            <Popup>
+              {group.jobs.length > 1 ? (
+                <div style={{ maxHeight: 200, overflowY: 'auto' }}>
+                  {group.jobs.map((job, i) => (
+                    <div
+                      key={job.id}
+                      style={{
+                        paddingBottom: 6,
+                        marginBottom: 6,
+                        borderBottom:
+                          i < group.jobs.length - 1 ? '1px solid #eee' : 'none',
+                      }}
+                    >
+                      <strong>{job.title}</strong>
+                      <br />
+                      {job.location}
+                      {job.salary && (
+                        <>
+                          <br />
+                          {job.salary} €
+                        </>
+                      )}
+                      <br />
+                      <ApplyButton job={job} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <strong>{group.jobs[0].title}</strong>
+                  <br />
+                  {group.jobs[0].location}
+                  {group.jobs[0].salary && (
+                    <>
+                      <br />
+                      {group.jobs[0].salary} €
+                    </>
+                  )}
+                  <br />
+                  <ApplyButton job={group.jobs[0]} />
+                </>
+              )}
+            </Popup>
+          </Marker>
+        ))}
+      </>
     </>
   );
 }
