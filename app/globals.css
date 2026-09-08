@@ -16,8 +16,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fff;
+    --foreground: #171717;
   }
 }
 
@@ -64,3 +64,4 @@ h5 {
 h6 {
   font-family: "Marianne", arial, sans-serif;
 }
+*/

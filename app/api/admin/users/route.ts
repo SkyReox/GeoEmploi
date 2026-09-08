@@ -13,8 +13,6 @@ export const GET = withAuth(["ADMIN"], async (request) => {
   const [users, total] = await Promise.all([
     prisma.user.findMany({
       where,
-      skip: (page - 1) * limit,
-      take: limit,
       orderBy: { createdAt: "desc" },
       select: {
         id: true,

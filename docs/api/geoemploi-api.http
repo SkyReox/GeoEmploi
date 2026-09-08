@@ -1,0 +1,120 @@
+@host = http://localhost:3000
+
+### 1) Health check
+GET {{host}}/api/health
+
+### 2) CSRF + login as giver
+GET {{host}}/api/auth/csrf
+
+### 3) Login as giver
+# Use the CSRF token from previous response, then POST with form fields:
+# csrfToken=<token>&email=giver.swagger@example.com&password=Giver123!&redirect=false
+POST {{host}}/api/auth/callback/credentials
+Content-Type: application/x-www-form-urlencoded
+
+csrfToken=PASTE_CSRF_TOKEN_HERE&email=giver.swagger@example.com&password=Giver123!&redirect=false
+
+### 4) Get current user
+GET {{host}}/api/me
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 5) List jobs
+GET {{host}}/api/jobs?page=1&limit=5
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 6) Create a job
+POST {{host}}/api/jobs
+Content-Type: application/json
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+{
+  "title": "Lead Developer",
+  "description": "Mission de refonte frontend",
+  "location": "Paris 11e",
+  "salary": 60000
+}
+
+### 7) Read a single job
+GET {{host}}/api/jobs/cmtrozih70001hhw7vx8r31np
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 8) Apply to a job
+POST {{host}}/api/jobs/cmtrozih70001hhw7vx8r31np/apply
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 9) Get applications for a giver
+GET {{host}}/api/applications?page=1&limit=10
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 10) Geocoding query
+GET {{host}}/api/geocode?q=Paris%2011e
+
+### 11) Seeker profile
+GET {{host}}/api/seeker/profile
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 12) Update seeker profile
+PUT {{host}}/api/seeker/profile
+Content-Type: application/json
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+{
+  "bio": "Développeur full-stack en recherche active",
+  "availability": "FULL_TIME",
+  "availableFrom": "2026-09-15"
+}
+
+### 13) Get seeker skills
+GET {{host}}/api/seeker/skills
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 14) Create skill
+POST {{host}}/api/seeker/skills
+Content-Type: application/json
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+{
+  "name": "TypeScript"
+}
+
+### 15) Create experience
+POST {{host}}/api/seeker/experiences
+Content-Type: application/json
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+{
+  "title": "Développeur Frontend",
+  "company": "NovaLabs",
+  "startDate": "2024-01-01",
+  "endDate": "2025-06-30",
+  "description": "Conception et maintenance d’applications web"
+}
+
+### 16) Admin jobs list
+GET {{host}}/api/admin/jobs?page=1&limit=10
+Cookie: authjs.session-token=PASTE_ADMIN_SESSION_TOKEN_HERE
+
+### 17) Approve a job as admin
+PUT {{host}}/api/admin/jobs/cmtrozih70001hhw7vx8r31np/approve
+Content-Type: application/json
+Cookie: authjs.session-token=PASTE_ADMIN_SESSION_TOKEN_HERE
+
+{
+  "action": "APPROVE"
+}
+
+### 18) Report a job
+PUT {{host}}/api/admin/jobs/job-swagger-demo/report
+Cookie: authjs.session-token=PASTE_ADMIN_SESSION_TOKEN_HERE
+
+### 19) List users as admin
+GET {{host}}/api/admin/users?page=1&limit=10
+Cookie: authjs.session-token=PASTE_ADMIN_SESSION_TOKEN_HERE
+
+### 20) Export personal data
+GET {{host}}/api/me/export
+Cookie: authjs.session-token=PASTE_SESSION_TOKEN_HERE
+
+### 21) Cron archive
+GET {{host}}/api/cron
+"}}]} 

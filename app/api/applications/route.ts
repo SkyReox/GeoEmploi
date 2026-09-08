@@ -15,8 +15,6 @@ export const GET = withAuth(["SEEKER", "GIVER"], async (request, _context, sessi
   const [applications, total] = await Promise.all([
     prisma.application.findMany({
       where,
-      skip: (page - 1) * limit,
-      take: limit,
       orderBy: { createdAt: "desc" },
       include: {
         job: { select: { id: true, title: true, location: true, status: true } },
