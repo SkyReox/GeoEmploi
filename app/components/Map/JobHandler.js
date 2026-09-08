@@ -131,11 +131,13 @@ export default function ShowAllJobsButton() {
     if (message === 'already-reported')
       return <span style={{ color: 'orange' }}>Offre déjà signalée.</span>;
     return (
+      
       <Button
         onClick={() => handleReport(job.id)}
         className='report-button'
         disabled={statusR === 'loading'}
-        variant="outline">
+        variant="outline"
+        size='5'>
         {statusR === 'loading' ? 'Envoi...' : 'Signaler'}  
       </Button>
     );
@@ -208,7 +210,7 @@ export default function ShowAllJobsButton() {
                           i < group.jobs.length - 1 ? '1px solid #eee' : 'none',
                       }}
                     >
-                      <strong>{job.title}</strong>
+                      Intitulé :<strong>{job.title}</strong>
                       <br />
                       {job.location}
                       {job.salary && (
@@ -221,21 +223,27 @@ export default function ShowAllJobsButton() {
                       <ApplyButton job={job} />
                       <br />
                       <ReportButton job={job} />
+                      <span><a href={`/job/${job.id}`}>Détails</a></span>
                     </div>
                   ))}
                 </div>
               ) : (
                 <>
                   <strong>{group.jobs[0].title}</strong>
-                  <br />
-                  {group.jobs[0].location}
+                  <br /> <br />
+                  Adresse : {group.jobs[0].location}
                   {group.jobs[0].salary && (
                     <>
                       <br />
-                      {group.jobs[0].salary} €
-                      <ApplyButton job={group.jobs[0]} />
+                      Salaire : {group.jobs[0].salary} €
+                      <br /><br /><br />
+                      <div style={{ textAlign: 'center' }}>
+                        <ApplyButton job={group.jobs[0]} />
+                      </div>
+                      <br /> <br />
                       <ReportButton job={group.jobs[0]} />
-                      <a href={`/job/${group.jobs[0].id}`}>Détails</a>
+                      &nbsp;&nbsp;
+                      <span><a href={`/job/${group.jobs[0].id}`}>Détails</a></span>
                     </>
                   )}
                   <br />
