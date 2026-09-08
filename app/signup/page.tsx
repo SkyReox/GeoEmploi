@@ -47,6 +47,20 @@ export default function SignupPage() {
       setErrors("Le numéro SIRET doit contenir exactement 14 chiffres.");
       return;
     }
+
+    const response = await fetch(
+    `/api/entreprise/${formData.siret.trim()}`
+    );
+    if (!response.ok) {
+      setErrors("Veuillez entré un numéro de SIRET valide");
+      return;
+    }
+    const data = await response.json();
+    console.log(data)
+    if (data.results.length < 1) {
+      setErrors("Veuillez entré un numéro de SIRET valide");
+      return 
+    }
   }
 
   if (formData.password.length < 8) {
@@ -237,7 +251,7 @@ export default function SignupPage() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="siret"
                 type="text"
-                value={formData.siret}
+                value={formData.siret.trim()}
                 onChange={handleChange}
                 placeholder="12345678901234"
                 maxLength={14}
