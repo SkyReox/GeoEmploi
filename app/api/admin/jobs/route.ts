@@ -17,8 +17,6 @@ export const GET = withAuth(["ADMIN"], async (request) => {
   const [jobs, total] = await Promise.all([
     prisma.job.findMany({
       where,
-      skip: (page - 1) * limit,
-      take: limit,
       orderBy: { createdAt: "desc" },
       include: {
         giver: { select: { id: true, firstname: true, lastname: true, email: true } },
