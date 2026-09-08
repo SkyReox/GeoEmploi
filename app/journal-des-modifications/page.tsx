@@ -14,10 +14,10 @@ export default function Home() {
                         </h4>
                         <ul role="list" className="list-disc pl-8">
                             <li role="listitem">
-                                Ajout du journal des modifications.
+                                Ajout du journal des modifications. Sur instruction de <span className="font-semibold">Florine Pontaillac</span>.
                             </li>
                             <li role="listitem">
-                                Ajout de la page de <a href="/transparence" className="text-blue-500 hover:text-blue-800 underline">Transparence</a>.
+                                Ajout de la page de <a href="/transparence" className="text-blue-500 hover:text-blue-800 underline">Transparence</a>. Sur instruction de <span className="font-semibold">Florine Pontaillac</span>.
                             </li>
                         </ul>
                     </li>
