@@ -20,7 +20,7 @@ export default function PrivacyPage() {
                     </p>
                     <section className="space-y-4 py-5">
                         <h2 className="text-2xl font-semibold leading-tight sm:text-3xl">1. Responsable du traitement</h2>
-                        <p>Le responsable du traitement est l&apos;éditeur de GéoEmploi. Pour toute question relative à vos données ou pour exercer vos droits, vous pouvez écrire à <a href="mailto:jeaneudes.berlier@gouv.fr" className="font-medium text-blue-700 underline hover:text-blue-900">jeaneudes.berlier@gouv.fr</a>.</p>
+                        <p>Le responsable du traitement est l&apos;éditeur de GéoEmploi. Pour toute question relative à vos données ou pour exercer vos droits, vous pouvez écrire à <a href="mailto:eudesjean.belier@wanadoo.fr" className="font-medium text-blue-700 underline hover:text-blue-900">eudesjean.belier@wanadoo.fr</a>.</p>
                     </section>
                     <section className="space-y-4 py-5">
                         <h2 className="text-2xl font-semibold leading-tight sm:text-3xl">2. Données collectées</h2>
