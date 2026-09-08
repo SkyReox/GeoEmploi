@@ -3,7 +3,7 @@ import SearchBar from './SearchHandler';
 import ShowAllJobsButton from './JobHandler';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LAYERS } from './LayerSwitcher';
 import LayerSwitcher from './LayerSwitcher';
 
@@ -79,6 +79,27 @@ function LocateButton() {
 
 function Map() {
   const [activeLayer, setActiveLayer] = useState('ortho');
+  const [isGiver, setIsGiver] = useState(false);
+
+  useEffect(() => {
+    async function checkGiver() {
+      try {
+        const res = await fetch('/api/me');
+        if (!res.ok) {
+          setIsGiver(false);
+          return;
+        }
+        const data = await res.json();
+        console.log('User data:', data);
+        setIsGiver(data?.role === 'GIVER');
+      } catch (err) {
+        console.error(err);
+        setIsGiver(false);
+      }
+    }
+    checkGiver();
+  }, []);
+
   return (
     <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true} maxZoom={40}>
       <TileLayer
@@ -90,7 +111,7 @@ function Map() {
       <LocationMarker />
       <LocateButton />
       <SearchBar />
-      <ShowAllJobsButton />
+      {!isGiver && <ShowAllJobsButton />}
     </MapContainer>
   );
 }

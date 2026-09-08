@@ -63,7 +63,7 @@ export default function ShowAllJobsButton() {
         setApplyStatus((prev) => ({ ...prev, [jobId]: data.error }));
         return (
           <Popup>
-            'Vous avez déjà postulé à cet emploi.'
+            Vous avez déjà postulé à cet emploi.
           </Popup>
         );
       }
