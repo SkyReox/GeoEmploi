@@ -412,7 +412,7 @@ export default function GiverDashboard() {
 
             {/* Formulaire d'ajout */}
             {addingJob && (
-              <div className="mt-4 rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-6">
+              <div className="mt-4 rounded-lg border border-border bg-slate-50 border-slate-200 px-4 py-6">
                 <div className="space-y-4">
                   <div>
                     <label
@@ -428,7 +428,7 @@ export default function GiverDashboard() {
                       value={jobTitle}
                       onChange={(e) => setJobTitle(e.target.value)}
                       placeholder="Ex: Développeur web"
-                      className="mt-1 w-full rounded-lg border border-dashed border-border bg-white px-4 py-2 text-sm text-neutral"
+                      className="mt-1 w-full rounded-lg border border-dashed border-border px-4 py-2 text-sm text-neutral"
                     />
                   </div>
 
@@ -448,7 +448,7 @@ export default function GiverDashboard() {
                       }
                       placeholder="Décrivez le poste..."
                       rows={5}
-                      className="mt-1 w-full resize-none rounded-lg border border-dashed border-border bg-white px-4 py-2 text-sm text-neutral"
+                      className="mt-1 w-full resize-none rounded-lg border border-dashed border-border px-4 py-2 text-sm text-neutral"
                     />
                   </div>
 
@@ -466,7 +466,7 @@ export default function GiverDashboard() {
                       value={jobLocation}
                       onChange={(e) => setJobLocation(e.target.value)}
                       placeholder="Ex: Paris"
-                      className="mt-1 w-full rounded-lg border border-dashed border-border bg-white px-4 py-2 text-sm text-neutral"
+                      className="mt-1 w-full rounded-lg border border-dashed border-border px-4 py-2 text-sm text-neutral"
                     />
                   </div>
 
@@ -520,11 +520,11 @@ export default function GiverDashboard() {
             {/* Liste des jobs */}
             <div className="mt-4">
               {jobsData.length === 0 ? (
-                <p className="w-full rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-6 text-center text-sm text-neutral">
+                <p className="w-full rounded-lg border border-border bg-slate-50 border-slate-200 px-4 py-6 text-center text-sm text-neutral">
                   Aucune offre publiée.
                 </p>
               ) : (
-                <div className="flex w-full flex-col gap-3 rounded-lg border border-dashed border-border px-4 py-6">
+                <div className="flex w-full flex-col gap-3 rounded-lg border-slate-200 bg-slate-50 border border-border px-4 py-6">
                   {jobsData.map((job) => {
                     const isDescriptionOpen = openDescriptionJobId === job.id;
 
@@ -578,13 +578,13 @@ export default function GiverDashboard() {
                           {isDescriptionOpen && (
                             <div
                               id={`job-description-${job.id}`}
-                              className="mt-3 rounded-lg border border-white/20 bg-white/10 p-3"
+                              className="mt-3 rounded-lg border border-slate-200 bg-slate-50 text-black p-3"
                             >
                               <span className="font-medium font-semibold">
                                 Description:
                               </span>
 
-                              <p className="mt-1 whitespace-pre-wrap text-white">
+                              <p className="mt-1 whitespace-pre-wrap">
                                 {job.description}
                               </p>
                             </div>
@@ -663,7 +663,7 @@ export default function GiverDashboard() {
                                 {applicationsByJob[job.id].map((application) => (
                                   <div
                                     key={application.id}
-                                    className="rounded-lg border border-dashed border-border p-4"
+                                    className="rounded-lg border border-border border-slate-200 bg-slate-50 p-4"
                                   >
                                     {/* Identité du candidat */}
                                     <div className="flex flex-wrap items-start justify-between gap-3">

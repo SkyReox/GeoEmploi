@@ -747,7 +747,7 @@ export default function Home() {
                 {applicationsData.map((application) => (
                   <div
                     key={application.id}
-                    className="rounded-lg border border-dashed border-border p-4"
+                    className="rounded-lg border border-slate-200 bg-slate-50 border-border p-4"
                   >
                     {/* Identité de l'offre */}
                     <div className="flex flex-wrap items-start justify-between gap-3">
