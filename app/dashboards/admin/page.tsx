@@ -20,6 +20,8 @@ type AdminUser = {
   lastname: string;
   role: UserRole;
   banned: boolean;
+  siret: string;
+  companyName: string
   createdAt: string;
   _count: {
     jobsPosted: number;
@@ -40,6 +42,8 @@ type AdminJob = {
     firstname: string;
     lastname: string;
     email: string;
+    companyName: string | null;
+    siret: string | null;
   };
   _count: {
     applications: number;
@@ -237,7 +241,7 @@ export default function AdminDashboard() {
     }
 
     return (
-      <div className="divide-y divide-border rounded-lg border border-border">
+      <div className="divide-y divide-border divide-slate-200 rounded-lg rounded-xl border border-slate-200 bg-slate-50">
         {users.map((user) => {
           const isUpdating = updatingUserId === user.id;
           const activity = user.role === "GIVER" ? user._count.jobsPosted : user._count.applications;
@@ -252,6 +256,8 @@ export default function AdminDashboard() {
                   </Badge>
                 </div>
                 <p className="mt-1 truncate text-sm text-neutral">{user.email}</p>
+                <p className="mt-1 truncate text-sm text-neutral">Siret: {user.siret}</p>
+                <p className="mt-1 truncate text-sm text-neutral">Entreprise: {user.companyName}</p>
                 <p className="mt-1 text-xs text-neutral">
                   {activity} {activityLabel} · Inscrit le {formatDate(user.createdAt)}
                 </p>
@@ -311,7 +317,7 @@ export default function AdminDashboard() {
           <CardHeader><CardTitle id="jobs-title">Offres postées</CardTitle></CardHeader>
           <CardContent>
             {loading ? <p className="text-sm text-neutral">Chargement des offres…</p> : jobs.length === 0 ? <p className="rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-6 text-center text-sm text-neutral">Aucune offre publiée.</p> : (
-              <div className="divide-y divide-border rounded-lg border border-border">
+              <div className="divide-y divide-border divide-slate-200 rounded-lg rounded-xl border border-slate-200 bg-slate-50 ">
                 {jobs.map((job) => {
                   const status = job.status ?? "PENDING";
                   const isUpdating = updatingJobId === job.id;
@@ -323,6 +329,9 @@ export default function AdminDashboard() {
                           <div className="flex flex-wrap items-center gap-2"><h3 className="font-semibold text-ink">{job.title}</h3><Badge variant={jobStatusVariant[status]}>{jobStatusLabel[status]}</Badge></div>
                           <p className="mt-1 text-sm text-neutral">{job.location} · Publiée le {formatDate(job.createdAt)}</p>
                           <p className="mt-1 text-sm text-neutral">Par {getFullName(job.giver)} ({job.giver.email}) · {job._count.applications} candidature{job._count.applications > 1 ? "s" : ""}</p>
+                          <p className="mt-1 text-sm text-neutral">
+                            Entreprise : {job.giver.companyName || "Non renseignée"} · SIRET : {job.giver.siret || "Non renseigné"}
+                          </p>
                           <p className="flex flex-col mt-1 text-red-600 text-neutral">signalé {job.reportedNb.toString()} fois</p>
                           {isDetailOpen && (
                             <div id={`job-details-${job.id}`} className="mt-3 rounded-lg border border-dashed border-border bg-neutral-bg/50 p-3 text-sm text-ink">

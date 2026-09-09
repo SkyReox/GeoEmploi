@@ -16,6 +16,8 @@ export const GET = withAuth(
         lastname: true,
         email: true,
         role: true,
+        companyName: true,
+        siret: true,
       },
     });
 
@@ -69,9 +71,37 @@ export const PUT = withAuth(
         lastname: true,
         email: true,
         role: true,
+        companyName: true,
+        siret: true,
       },
     });
 
     return NextResponse.json(updatedUser);
+  }
+);
+
+export const DELETE = withAuth(
+  ["SEEKER", "GIVER", "ADMIN"],
+  async (_request, _context, session) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Utilisateur introuvable" },
+        { status: 404 }
+      );
+    }
+
+    await prisma.user.delete({
+      where: {
+        id: session.user.id,
+      },
+    });
+
+    return new NextResponse(null, { status: 204 });
   }
 );

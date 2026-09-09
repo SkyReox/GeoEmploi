@@ -19,6 +19,8 @@ export const GET = withAuth(["ADMIN"], async (request) => {
         email: true,
         firstname: true,
         lastname: true,
+        companyName: true,
+        siret: true,
         role: true,
         banned: true,
         createdAt: true,

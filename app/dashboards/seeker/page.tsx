@@ -19,7 +19,10 @@ type Application = {
 
   job?: {
     title: string;
-    description: string;
+    description?: string | null;
+    giver?: {
+      companyName?: string | null;
+    };
   };
 };
 
@@ -744,7 +747,7 @@ export default function Home() {
                 {applicationsData.map((application) => (
                   <div
                     key={application.id}
-                    className="rounded-lg border border-dashed border-border p-4"
+                    className="rounded-lg border border-slate-200 bg-slate-50 border-border p-4"
                   >
                     {/* Identité de l'offre */}
                     <div className="flex flex-wrap items-start justify-between gap-3">
@@ -758,6 +761,10 @@ export default function Home() {
                             {application.job.description}
                           </p>
                         )}
+
+                        <p className="mt-1 text-sm text-neutral">
+                          Entreprise : {application.job?.giver?.companyName || "Non renseignée"}
+                        </p>
                       </div>
 
                       <Badge className={application.status === "PENDING"
@@ -785,8 +792,8 @@ export default function Home() {
 
                     {/* Actions */}
                       <div className="mt-4 flex flex-wrap gap-2">
-                        <button
-                          className="flex pr-2 pl-2 items-center justify-center border border-rounded rounded-full text-red transition hover:bg-red-600 hover:text-white"
+                        <Button
+                          variant="danger"
                           onClick={() =>
                             handleDeleteApplication(
                               application.id,
@@ -794,7 +801,7 @@ export default function Home() {
                           }
                         >
                           Supprimer
-                        </button>
+                        </Button>
                       </div>
                   </div>
                 ))}

@@ -4,22 +4,22 @@ import { HTMLAttributes } from "react";
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("rounded-md border border-border bg-paper", className)}
+      className={cn("rounded-md border border-border border-slate-200 bg-white shadow-sm", className)}
       {...props}
     />
   );
 }
 
 export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("border-b border-border px-5 py-4", className)} {...props} />;
+  return <div className={cn("border-b border-border px-5 py-4 border-slate-200 bg-slate-50", className)} {...props} />;
 }
 
 export function CardTitle({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn("text-base font-semibold text-ink", className)} {...props} />;
+  return <h3 className={cn("text-base font-semibold text-ink text-3xl text-slate-900", className)} {...props} />;
 }
 
 export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("px-5 py-4", className)} {...props} />;
+  return <div className={cn("px-5 py-4 space-y-8 p-6 sm:p-8", className)} {...props} />;
 }
 
 export function CardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
