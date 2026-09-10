@@ -162,8 +162,7 @@ export default function AccountComponent() {
         const data = await response.json().catch(() => null);
         throw new Error(data?.error || "Impossible de supprimer le compte.");
       }
-
-      router.push("/login");
+      router.push("/api/auth/signout");
     } catch (deleteError) {
       console.error(deleteError);
       setError(
