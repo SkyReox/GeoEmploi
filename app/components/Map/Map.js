@@ -101,7 +101,7 @@ function Map() {
   }, []);
 
   return (
-    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true} maxZoom={10} minZoom={10}>
+    <MapContainer center={[48.8566, 2.3522]} zoom={13} style={{ height: '70vh', width: '100%' }} scrollWheelZoom={true} maxZoom={18}>
       <TileLayer
         key={activeLayer}
         attribution='&copy; <a href="https://www.ign.fr/">IGN</a>'
