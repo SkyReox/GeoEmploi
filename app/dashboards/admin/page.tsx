@@ -241,7 +241,7 @@ export default function AdminDashboard() {
     }
 
     return (
-      <div className="divide-y divide-border rounded-lg border border-border">
+      <div className="divide-y divide-border divide-slate-200 rounded-lg rounded-xl border border-slate-200 bg-slate-50">
         {users.map((user) => {
           const isUpdating = updatingUserId === user.id;
           const activity = user.role === "GIVER" ? user._count.jobsPosted : user._count.applications;
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
           <CardHeader><CardTitle id="jobs-title">Offres postées</CardTitle></CardHeader>
           <CardContent>
             {loading ? <p className="text-sm text-neutral">Chargement des offres…</p> : jobs.length === 0 ? <p className="rounded-lg border border-dashed border-border bg-neutral-bg/50 px-4 py-6 text-center text-sm text-neutral">Aucune offre publiée.</p> : (
-              <div className="divide-y divide-border rounded-lg border border-border">
+              <div className="divide-y divide-border divide-slate-200 rounded-lg rounded-xl border border-slate-200 bg-slate-50 ">
                 {jobs.map((job) => {
                   const status = job.status ?? "PENDING";
                   const isUpdating = updatingJobId === job.id;

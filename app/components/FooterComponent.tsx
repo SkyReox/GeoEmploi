@@ -54,7 +54,7 @@ export default function FooterComponent() {
             </div>
         </nav>
         <div className="flex justify-end w-full mt-5">
-            <p className="italic ">
+            <p className="italic text-white">
                 Démonstrateur technique, ne constitue pas un service public en exploitation.
             </p>
         </div>

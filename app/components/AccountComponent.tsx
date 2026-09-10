@@ -193,73 +193,46 @@ export default function AccountComponent() {
   if (!editingProfile) {
     return (
         <>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Prénom:
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.firstname}
-                  </p>
+              <div className="grid gap-6 p-6 md:grid-cols-2 rounded-xl border border-slate-200 bg-slate-50">
+                <div className="w-full">
+                  <p className="text-sm font-semibold text-ink">Prénom:</p>
+                  <p className="text-sm text-neutral">{userData?.firstname}</p>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Nom:
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.lastname}
-                  </p>
+                <div className="w-full">
+                  <p className="text-sm font-semibold text-ink">Nom:</p>
+                  <p className="text-sm text-neutral">{userData?.lastname}</p>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Email:
-                  </p>
-
-                  <p className="text-sm text-neutral">
-                    {userData?.email}
-                  </p>
+                <div className="w-full">
+                  <p className="text-sm font-semibold text-ink">Email:</p>
+                  <p className="text-sm text-neutral">{userData?.email}</p>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium font-semibold text-ink">
-                    Type de compte:
-                  </p>
-
-                  <Badge>
-                    {userData?.role === "GIVER"
-                      ? "Recruteur"
-                      : "Demandeur d'emploi"}
-                  </Badge>
+                <div className="w-full">
+                  <p className="text-sm font-semibold text-ink">Type de compte:</p>
+                  <div className="mt-1">
+                    <Badge>
+                      {userData?.role === "GIVER" ? "Recruteur" : "Demandeur d'emploi"}
+                    </Badge>
+                  </div>
                 </div>
 
                 {userData?.role === "GIVER" && (
                   <>
-                    <div>
-                      <p className="text-sm font-medium font-semibold text-ink">
-                        Nom de l&apos;entreprise:
-                      </p>
-
-                      <p className="text-sm text-neutral">
-                        {userData?.companyName || "Non renseigné"}
-                      </p>
+                    <div className="w-full">
+                      <p className="text-sm font-semibold text-ink">Nom de l&apos;entreprise:</p>
+                      <p className="text-sm text-neutral">{userData?.companyName || "Non renseigné"}</p>
                     </div>
 
-                    <div>
-                      <p className="text-sm font-medium font-semibold text-ink">
-                        SIRET:
-                      </p>
-
-                      <p className="text-sm text-neutral">
-                        {userData?.siret || "Non renseigné"}
-                      </p>
+                    <div className="w-full">
+                      <p className="text-sm font-semibold text-ink">SIRET:</p>
+                      <p className="text-sm text-neutral">{userData?.siret || "Non renseigné"}</p>
                     </div>
                   </>
                 )}
               </div>
+
 
               <div className="mt-4">
                 <Button
@@ -303,8 +276,8 @@ export default function AccountComponent() {
     );
   } else {
     return (
-        <div className="space-y-4">
-              <div>
+        <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col">
+              <div className="w-full pl-4 pr-4 pt-4">
                 <label
                   htmlFor="firstname"
                   className="text-sm font-medium font-semibold text-ink"
@@ -321,7 +294,7 @@ export default function AccountComponent() {
                 />
               </div>
 
-              <div>
+              <div className="w-full pl-4 pr-4">
                 <label
                   htmlFor="lastname"
                   className="text-sm font-medium font-semibold text-ink"
@@ -338,7 +311,7 @@ export default function AccountComponent() {
                 />
               </div>
 
-              <div>
+              <div className="w-full pl-4 pr-4">
                 <label
                   htmlFor="email"
                   className="text-sm font-medium font-semibold text-ink"
@@ -355,7 +328,7 @@ export default function AccountComponent() {
                 />
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 pl-4 pr-4 pb-4">
                 <Button
                   className="cursor-pointer hover:bg-gray-200"
                   variant="outline"
